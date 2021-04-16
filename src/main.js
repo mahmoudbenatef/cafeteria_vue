@@ -14,7 +14,7 @@ import LoginComponent from "@/components/LoginComponent";
 
 // Vue.use(VueAxios, axios)
 const routes=[
-     {path:'/',component:HelloWorld},
+     {path:'/',name: '/',component:HelloWorld},
     {path:'/register',name: 'register',component:RegisterComponent},
     {path:'/login',  name: 'login', component:LoginComponent},
     {path:'/:catchAll(.*)',component:Handler}
