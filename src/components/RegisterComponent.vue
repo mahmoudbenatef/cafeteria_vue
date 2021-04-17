@@ -59,7 +59,7 @@
     <label for="exampleInputEmail1" class="form-label col-md-3">Room</label>
     <select v-model="user.room_id" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
       <option selected>Open this select menu</option>
-      <option v-for="room in rooms"  bind:value="room.id">{{ room.number }}</option>
+      <option v-for="room in rooms"   v-bind:value="room.id">{{ room.number }}</option>
     </select>
   </div>
   <div class="row">
@@ -83,16 +83,23 @@
       </p>
     </div>
   </div>
+  <div class="mb-3 row">
+  <label for="name" class="form-label col-md-3">Profile pic</label>
+  <input type="file" class="form-control col-md-8" v-on:change="onFileChange">
+  </div>
 
-    <button type="submit" class="btn btn-primary" @click="register">Submit</button>
+  <button type="submit" class="btn btn-primary" @click="register">Register</button>
 <!--  </form>-->
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Register',
   data(){
     return{
+      photo:"",
       rooms:[],
      user:{
        name:"",
@@ -100,44 +107,85 @@ export default {
        password:'',
        c_password:'',
        room_id:'',
-       photo:"test.png",
        ext:''
      },
       errors:{}
     }
   },
   components:{
-
   },
   methods:{
-
-    register(){
-      console.log(this.user)
-      fetch('http://127.0.0.1:8000/api/register',{
-        method:'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.user)
-      }).then((response)=>response.json())
-          .then(data=>{
-            console.log("here")
-          if (data.status === "Error")
-          {
-            this.errors = data.message;
+    onFileChange(e){
+      this.photo = e.target.files[0];
+    },
+    register() {
+      console.log(this.user.room_id,"roooooooooooooooooooooooooooom")
+      //   console.log(this.user.photo)
+      //   fetch('http://127.0.0.1:8000/api/register',{
+      //     method:'POST',
+      //     headers: {
+      //       // 'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify(this.user)
+      //   }).then((response)=>response.json())
+      //       .then(data=>{
+      //         console.log("here")
+      //       if (data.status === "Error")
+      //       {
+      //         this.errors = data.message;
+      //       }
+      //       else {
+      //         this.$router.push('login')
+      //       }
+      //
+      //       })
+      //
+      // }
+      let formData = new FormData()
+      formData.append('photo', this.photo)
+      for (const [key, value] of Object.entries(this.user)) {
+          formData.append(key, value)
+      }
+      console.log(formData)
+      axios.post('http://127.0.0.1:8000/api/register', formData, {
+            headers: {
+              'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
+            }
           }
-          else {
-            this.$router.push('login')
-          }
+      )
+            .then(response=>{
+              let data = response.data
+              console.log("here")
+            if (data.status === "Error")
+            {
+              this.errors = data.message;
+            }
+            else {
+              this.$router.push('login')
+            }
 
-          })
+            })
 
+
+
+
+        // axios({
+        //   method: 'post',
+        //   url: 'http://127.0.0.1:8000/api/register',
+        //   data: data,
+        // })
     }
-  },
+    },
   created() {
+    axios
+        .get('http://127.0.0.1:8000/api/room')
+        .then(response => (console.log("response")))
+
     fetch('http://127.0.0.1:8000/api/room')
         .then(response => response.json())
-        .then(json => this.rooms=json.data)
+        .then(json => {this.rooms=json.data
+          console.log(this.rooms)
+        })
   }
 
 

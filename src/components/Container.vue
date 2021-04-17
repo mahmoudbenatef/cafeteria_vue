@@ -1,18 +1,17 @@
 <template>
-<!--  <div v-if="auth">-->
-<!--  <div class="container mt-2">Container Page</div>-->
-<!--  <div class="row" >-->
-
-  <div class="col-md-4"><router-link to="/">Home</router-link></div>
-  <div class="col-md-4"><router-link to="register">Register</router-link></div>
-  <div class="col-md-4"><router-link to="login">Login</router-link></div>
-  <br>
+  <template>{{checkUser()}}</template>
+  <NavbarComponent v-if="auth" :user="user.isAdmin" ></NavbarComponent>
+<!--  <div class="col-md-4"><router-link to="/">Home</router-link></div>-->
+<!--  <div class="col-md-4"><router-link to="login">Login</router-link></div>-->
+<!--  <br>-->
 <div v-if="user.isAdmin==1">
   <h1>Admin logged in</h1>
 </div>
+
   <div v-if="user.isAdmin==0">
     <h1>User logged in</h1>
   </div>
+
   <div class="mt-5">
     <template>{{checkAuth()}}</template>
     <router-view class="col-12">
@@ -23,6 +22,7 @@
 </template>
 
 <script>
+import NavbarComponent from "@/components/NavbarComponent";
 export default {
   name: 'About',
   data(){
@@ -35,7 +35,7 @@ export default {
     }
   },
   components:{
-
+    NavbarComponent
   },
   methods:{
     checkAuth(){
@@ -60,6 +60,10 @@ export default {
 
        this.auth=true
      }
+    },
+    checkUser(){
+      if (localStorage.getItem("user") !==null)
+        this.user= JSON.parse(localStorage.getItem("user"))
     }
   },
   computed: {
@@ -67,13 +71,7 @@ export default {
       console.log(this.$route.name)
       return this.$route.name;
     }
-  },
-  created() {
-    if (localStorage.getItem("user") !==null)
-      this.user= JSON.parse(localStorage.getItem("user"))
-    console.log(this.user)
   }
-
 
 }
 </script>

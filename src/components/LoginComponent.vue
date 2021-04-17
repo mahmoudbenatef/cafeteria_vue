@@ -34,9 +34,10 @@
       </p>
     </div>
   </div>
+    <button type="submit" class="btn btn-primary m-3" @click="login">Login</button>
+    <router-link to="register" class="btn btn-primary">Register</router-link>
 
-  <button type="submit" class="btn btn-primary" @click="login">Submit</button>
-<!--  </form>-->
+  <!--  </form>-->
 </template>
 
 <script>
