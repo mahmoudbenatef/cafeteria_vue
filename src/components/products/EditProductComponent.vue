@@ -39,7 +39,13 @@
                 name="category_id"
               >
                 <option value="null">Select Product Category</option>
-                <option value="2">Category One</option>
+                <option
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="category.id"
+                >
+                  {{ category.name }}
+                </option>
               </select>
               <p class="errors" v-if="'category_id' in errors">
                 {{ errors["category_id"] + "" }}
@@ -78,11 +84,17 @@ export default {
     },
     errors: {},
     hasImage: false,
+    categories: null,
   }),
   methods: {
     async getProduct(id) {
       const response = await services.getProudctById(id);
       this.product = response["data"]["data"];
+    },
+
+    async getCategories() {
+      const response = await services.getCategories();
+      this.categories = response["data"]["data"];
     },
     uploadImage(e) {
       this.product.photo = e.target.files[0];
@@ -90,9 +102,9 @@ export default {
     },
     validateForm() {
       this.errors = {};
-    //   let isValid = this.product.category_id != "null" ;
-    // //   || this.product.price != "";
-    //   console.log(isValid);
+      //   let isValid = this.product.category_id != "null" ;
+      // //   || this.product.price != "";
+      //   console.log(isValid);
       for (const key in this.product) {
         this.product[key] == null && (this.errors[key] = `${key} is required`);
       }
@@ -121,6 +133,7 @@ export default {
   },
   created() {
     this.getProduct(this.$route.params.id);
+    this.getCategories();
   },
 };
 </script>

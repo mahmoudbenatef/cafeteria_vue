@@ -51,4 +51,13 @@ export default {
       },
     });
   },
+
+  getCategories: () => {
+    return axios.get(hostUrl + "categoryLookup", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
 };

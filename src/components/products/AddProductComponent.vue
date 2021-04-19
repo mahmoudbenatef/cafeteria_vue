@@ -28,7 +28,13 @@
               name="category_id"
             >
               <option value="null">Select Product Category</option>
-              <option value="2">Category One</option>
+              <option
+                v-for="category in categories"
+                :key="category.id"
+                :value="category.id"
+              >
+                {{ category.name }}
+              </option>
             </select>
           </div>
           <div class="form-group m-1">
@@ -69,6 +75,7 @@ export default {
       photo: null,
     },
     errors: {},
+    categories: null,
   }),
   methods: {
     uploadImage(e) {
@@ -96,9 +103,13 @@ export default {
         }
       }
     },
+    async getCategories() {
+      const response = await services.getCategories();
+      this.categories = response["data"]["data"];
+    },
   },
   created() {
-    console.log(this.$props);
+    this.getCategories();
   },
 };
 </script>
