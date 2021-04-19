@@ -120,27 +120,6 @@ export default {
     },
     register() {
       console.log(this.user.room_id,"roooooooooooooooooooooooooooom")
-      //   console.log(this.user.photo)
-      //   fetch('http://127.0.0.1:8000/api/register',{
-      //     method:'POST',
-      //     headers: {
-      //       // 'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(this.user)
-      //   }).then((response)=>response.json())
-      //       .then(data=>{
-      //         console.log("here")
-      //       if (data.status === "Error")
-      //       {
-      //         this.errors = data.message;
-      //       }
-      //       else {
-      //         this.$router.push('login')
-      //       }
-      //
-      //       })
-      //
-      // }
       let formData = new FormData()
       formData.append('photo', this.photo)
       for (const [key, value] of Object.entries(this.user)) {
@@ -177,10 +156,6 @@ export default {
     }
     },
   created() {
-    axios
-        .get('http://127.0.0.1:8000/api/room')
-        .then(response => (console.log("response")))
-
     fetch('http://127.0.0.1:8000/api/room')
         .then(response => response.json())
         .then(json => {this.rooms=json.data
