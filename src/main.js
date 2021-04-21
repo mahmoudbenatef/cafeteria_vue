@@ -13,12 +13,17 @@ import VueAxios from 'vue-axios'
 import LoginComponent from "@/components/LoginComponent";
 import ManualOrderComponent from "@/components/ManualOrderComponent";
 
+import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
+
 // Vue.use(VueAxios, axios)
 const routes=[
      {path:'/',name: '/',component:HelloWorld},
     {path:'/register',name: 'register',component:RegisterComponent},
     {path:'/login',  name: 'login', component:LoginComponent},
     {path:'/manualOrder',component:ManualOrderComponent},
+    
+    {path:'/orders',component:CurrentOrdersComponent},
+
     {path:'/:catchAll(.*)',component:Handler}
 ];
 
