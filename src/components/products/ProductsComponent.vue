@@ -50,11 +50,13 @@ export default {
       this.products = data["data"];
     },
     updateProduct(product) {
-      product.isAvailable = product.isAvailable ? false : true;
-      services.updateProudct(product.id, { isAvailable: product.isAvailable });
+      product.isAvailable = product.isAvailable ? 0 : 1;
+
+      services.updateProudct(product.id, {
+        isAvailable: String(product.isAvailable),
+      });
     },
     async deleteProduct(id) {
-      console.log(id);
       const res = await services.deleteProduct(id);
       if (res.data.status == "success") {
         this.getAllProudct();

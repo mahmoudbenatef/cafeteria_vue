@@ -29,7 +29,7 @@ export default {
   },
 
   updateProudct: (id, proudct) => {
-    return axios.post(proudctsUrl + `/${id}?_method=patch`, proudct, {
+    return axios.patch(proudctsUrl + `/${id}`, proudct, {
       headers: {
         Authorization: token,
       },
