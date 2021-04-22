@@ -14,6 +14,9 @@ import LoginComponent from "@/components/LoginComponent";
 import ProductsComponent from "@/components/products/ProductsComponent";
 import EditProductComponent from "@/components/products/EditProductComponent";
 import ManualOrderComponent from "@/components/ManualOrderComponent";
+import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
+
+
 // Vue.use(VueAxios, axios)
 const routes = [
   { path: "/", name: "/", component: HelloWorld },
@@ -26,7 +29,9 @@ const routes = [
     name: "editproduct",
     component: EditProductComponent,
   },
+  {path:'/orders',component:CurrentOrdersComponent},
   { path: "/:catchAll(.*)", component: Handler },
+
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });
