@@ -7,9 +7,7 @@
       <OrderComponent v-bind:products="products" v-bind:user_id="user_id"></OrderComponent>
     </div>
     <div class="col-md-6">
-      <div class="row">
-        <UsersForOrderComponent @selectUser="selectUser"></UsersForOrderComponent>
-      </div>
+
 
       <div class="row">
         <ProductForOrderComponent @addProduct="addProduct"></ProductForOrderComponent>
@@ -28,7 +26,7 @@ export default {
   data(){
     return {
       products:[],
-      user_id:-1,
+      user_id: JSON.parse(localStorage.getItem("user"))["id"],
     }
   },
   methods:{
@@ -42,9 +40,6 @@ export default {
       }
 
     },
-    selectUser(user_id){
-      this.user_id= user_id
-    }
   },
   props: {
 

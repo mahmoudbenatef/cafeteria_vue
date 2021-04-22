@@ -1,12 +1,15 @@
 <template>
   <template>{{calcTotalPrice()}}</template>
   <table class="table">
+    <p v-if="'products'in errors" class="bg-warning">
+      {{errors["products"][0]}}
+    </p>
 <tbody v-if="products.length>0">
     <tr v-for="product in products">
       <td>{{product.name}}</td>
       <td> <input type="number"  disabled v-bind:value="product.quantity"></td>
       <td><span @click="increaseQuantity(product)" class="btn btn-primary">+</span> <span @click="decreaseQuantity(product)" class="btn btn-danger">-</span></td>
-      <td>{{product.price* product.quantity}}</td>
+      <td>{{product.price* product.quantity +" $"}}</td>
     </tr>
 </tbody>
 
@@ -14,21 +17,28 @@
   <div class="mb-3 row">
     <label for="" class="form-label col-md-3">Room</label>
     <select  v-model="room" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
-      <option selected>Open this select menu</option>
+      <option selected  v-bind:value="''">Open this select menu</option>
       <option v-for="room in rooms"   v-bind:value="room.id">{{ room.number }}</option>
     </select>
   </div>
+
+  <p v-if="'room'in errors" class="bg-warning">
+    {{errors["room"][0]}}
+  </p>
   <div class="mb-3 row">
     <label  class="form-label col-md-3">Notes</label>
     <textarea class="form-control col-md-8" v-model="notes"></textarea>
   </div>
 
+<div class="row justify-content-between">
+  <col-4></col-4>
+  <div class="col-4 align-self-end" v-if="totalPrice>0"><span>Total Price:</span>{{" "+totalPrice+" $"}}</div>
+</div>
+
   <div class="mb-3 row">
     <div class="col-md-4"></div>
-<button class="btn btn-primary col-md-4" @click="confirmOrder">Confirm</button>
+    <button class="btn btn-primary col-md-4" @click="confirmOrder">Confirm</button>
   </div>
-
-  <h1>{{totalPrice}}</h1>
 </template>
 <script>
 import axios from "axios";
@@ -37,6 +47,7 @@ export default {
   name: 'HelloWorld',
   data() {
     return {
+      errors:[],
       rooms: [],
       totalPrice: 0,
       room:"",
@@ -45,7 +56,8 @@ export default {
     }
   },
   props: {
-    products: Array
+    products: Array,
+    user_id:  String
   },
   methods: {
     calcTotalPrice(){
@@ -56,12 +68,15 @@ export default {
 
     },
     confirmOrder(){
+      this.errors=[]
       console.log("hello world ")
       let formData = new FormData()
+      console.log(JSON.stringify(this.products))
       formData.append("products",JSON.stringify(this.products))
       formData.append("room",this.room)
       formData.append("notes",this.notes)
       formData.append("price",this.totalPrice)
+      formData.append("user_id",this.user_id)
       console.log(formData  )
       axios.post('http://127.0.0.1:8000/api/order', formData, {
             headers: {
@@ -93,7 +108,10 @@ export default {
             // }
 
           })
-
+      .catch(err=>{
+        console.log(err.response.data.message)
+        this.errors=err.response.data.message
+      })
     },
     increaseQuantity(product) {
       product.quantity += 1

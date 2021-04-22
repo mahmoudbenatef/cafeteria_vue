@@ -1,6 +1,6 @@
 <template>
   <template>{{checkUser()}}</template>
-  <NavbarComponent v-if="auth" :user="user.isAdmin" ></NavbarComponent>
+  <NavbarComponent :user="user.isAdmin" ></NavbarComponent>
 <!--  <div class="col-md-4"><router-link to="/">Home</router-link></div>-->
 <!--  <div class="col-md-4"><router-link to="login">Login</router-link></div>-->
 <!--  <br>-->
@@ -12,7 +12,7 @@
 <!--    <h1>User logged in</h1>-->
 <!--  </div>-->
   <div class="mt-5">
-    <template>{{checkAuth()}}</template>
+<!--    <template>{{checkAuth()}}</template>-->
     <router-view class="col-12">
 
     </router-view>
@@ -38,25 +38,18 @@ export default {
   },
   methods:{
     checkAuth(){
-      console.log("whaaaaaaaaaaaaaaaaat",typeof localStorage.getItem("user") )
-      console.log(this.$router.currentRoute["value"]['path'])
-      // console.log(["_rawValue"]); // path is /post
+
      if ( typeof  localStorage.getItem("user")== 'undefined' || localStorage.getItem("user")=== "" || localStorage.getItem("user")=== null )
      {
-       console.log("unauthed")
        this.auth=false
        if (!(this.$router.currentRoute["value"]['path'] == "/register"))
        this.$router.push('login')
      }
      else if ((this.$router.currentRoute["value"]['path'] === "/register" || this.$router.currentRoute["value"]['path'] === "/login"))
      {
-       console.log("noooooooooooooooooooo")
        this.$router.push('/')
-
      }
      else{
-       console.log("sooooooooooooooooooo")
-
        this.auth=true
      }
     },
