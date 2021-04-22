@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "chokidar": "^3.5.1",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
     "vue": "^3.0.0",
