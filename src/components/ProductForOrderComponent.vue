@@ -7,7 +7,6 @@
 </div>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 
@@ -16,6 +15,7 @@ export default {
   data(){
     return {
     products:[],
+    users:[],
       accessToken:""
     }
   },
@@ -36,11 +36,21 @@ export default {
   },
   created() {
     this.getAccessToken()
-    // fetch('http://127.0.0.1:8000/api/product')
-    //     .then(response => response.json())
-    //     .then(json => {this.products=json.data
-    //       console.log(this.products)
-    //     })
+    axios.get('http://127.0.0.1:8000/api/user', {
+      headers: {
+        'Authorization': `Bearer ${this.accessToken}`,
+        'Accept':"application/json"
+      }
+    })
+        .then((res) => {
+          this.users= res.data.data
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+
+
+
     axios.get('http://127.0.0.1:8000/api/product', {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
@@ -48,7 +58,6 @@ export default {
       }
     })
         .then((res) => {
-          // console.log(res)
           this.products= res.data.data
           console.log(this.products)
         })

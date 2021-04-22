@@ -16,27 +16,69 @@ import EditProductComponent from "@/components/products/EditProductComponent";
 import ManualOrderComponent from "@/components/ManualOrderComponent";
 import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
 
+import UserOrderComponent from "@/components/UserOrderComponent";
 
-// Vue.use(VueAxios, axios)
-const routes = [
-  { path: "/", name: "/", component: HelloWorld },
-  { path: "/register", name: "register", component: RegisterComponent },
-  { path: "/login", name: "login", component: LoginComponent },
-  { path: "/products", name: "products", component: ProductsComponent },
-   {path:'/manualOrder',component:ManualOrderComponent},
-  {
+const user = localStorage.getItem("user");
+     const routes=[
+        {path:'/',name: '/',component:HelloWorld},
+        {path:'/register',name: 'register',component:RegisterComponent},
+        {path:'/login',  name: 'login', component:LoginComponent},
+        { path: "/products", name: "products", component: ProductsComponent },
+
+       {path:'/manualOrder',component:ManualOrderComponent}
+        ,
+         {
     path: "/product/:id",
     name: "editproduct",
     component: EditProductComponent,
   },
-  {path:'/orders',component:CurrentOrdersComponent},
-  { path: "/:catchAll(.*)", component: Handler },
 
+           {path:'/orders',component:CurrentOrdersComponent},
+
+            beforeEnter: (to, from) => {
+                // reject the navigation
+                if (user)
+                    if (JSON.parse(user)["isAdmin"]==1)
+                return true
+                else
+                        return false
+            },
+        },
+        {path:'/userOrder',component:UserOrderComponent},
+        {path:'/:catchAll(.*)',component:Handler},
 ];
+const router = createRouter({history:createWebHistory(),routes});
 
-const router = createRouter({ history: createWebHistory(), routes });
-const app = createApp(Container);
-app.use(VueAxios, axios); // 👈
-app.use(router).mount("#app");
+router.beforeEach((to, from,next) => {
+    console.log("inside middleware")
+    if (user !==null ){
+    if( "token" in JSON.parse(user) &&typeof JSON.parse(user)["token"]!== 'undefined')
+    {
+        console.log(JSON.parse(user)["token"])
+        console.log("token existed")
+        if (to.name!== "register" && to.name!== "login")
+         next()
+        else
+            next({ name: '/' })
+    }
 
-// createApp(Container).use(router).mount('#app')
+    else if (to.name !== "register" && to.name !== "login")
+    {
+        console.log(to.name)
+        console.log("test")
+        next({ name: 'login' })
+    }
+    else {
+        console.log("how comes")
+        next()
+    }
+    }
+    else  {
+        localStorage.setItem("user", JSON.stringify([]))
+        next({ name: 'login' })
+    }
+})
+
+const app = createApp(Container)
+app.use(VueAxios, axios) // 👈
+app.use(router).mount('#app')
