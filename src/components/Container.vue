@@ -1,22 +1,11 @@
 <template>
   <template>{{ checkUser() }}</template>
   <NavbarComponent :user="user.isAdmin"></NavbarComponent>
-  <!--  <div class="col-md-4"><router-link to="/">Home</router-link></div>-->
-  <!--  <div class="col-md-4"><router-link to="login">Login</router-link></div>-->
-  <!--  <br>-->
-  <!--<div v-if="user.isAdmin==1">-->
-  <!--  <h1>Admin logged in</h1>-->
-  <!--</div>-->
-
-  <!--  <div v-if="user.isAdmin==0">-->
-  <!--    <h1>User logged in</h1>-->
-  <!--  </div>-->
   <div class="mt-5">
-    <!--    <template>{{checkAuth()}}</template>-->
+        <template>{{checkAuth()}}</template>
     <router-view class="col-12"> </router-view>
   </div>
 </template>
-
 <script>
 import NavbarComponent from "@/components/NavbarComponent";
 export default {

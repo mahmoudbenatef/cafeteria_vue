@@ -11,7 +11,7 @@
       <div class="collapse navbar-collapse" id="">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <router-link class=" nav-link active" aria-current="page" to="/room">Rooms</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -30,6 +30,13 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Admin</a>
+            </li>
+          </ul>
+        </div>
+        <div class="d-flex ">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
             </li>
           </ul>
         </div>
@@ -81,6 +88,12 @@ export default {
   name: 'HelloWorld',
   props: {
     user: String
+  },methods:{
+    Logout(){
+      localStorage.removeItem("user")
+      this.$router.push("/login");
+
+    }
   }
 }
 </script>

@@ -111,17 +111,6 @@ export default {
           } else {
             console.log("howwwwwwwwwwww");
           }
-
-          // let data = response.data
-          // console.log("here")
-          // if (data.status === "Error")
-          // {
-          //   this.errors = data.message;
-          // }
-          // else {
-          //
-          //   // this.$router.push('login')
-          // }
         })
         .catch((err) => {
           console.log(err.response.data.message);
@@ -143,6 +132,7 @@ export default {
     },
     getAccessToken() {
       const token = JSON.parse(localStorage.getItem("user"));
+      if (token)
       this.accessToken = token["token"];
     },
   },
