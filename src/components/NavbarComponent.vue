@@ -33,6 +33,13 @@
             </li>
           </ul>
         </div>
+        <div class="d-flex ">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -81,6 +88,12 @@ export default {
   name: 'HelloWorld',
   props: {
     user: String
+  },methods:{
+    Logout(){
+      localStorage.removeItem("user")
+      this.$router.push("/login");
+
+    }
   }
 }
 </script>

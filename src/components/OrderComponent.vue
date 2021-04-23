@@ -132,6 +132,7 @@ export default {
     },
     getAccessToken() {
       const token = JSON.parse(localStorage.getItem("user"));
+      if (token)
       this.accessToken = token["token"];
     },
   },
