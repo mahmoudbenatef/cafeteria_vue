@@ -17,6 +17,7 @@ import ManualOrderComponent from "@/components/ManualOrderComponent";
 import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
 import MyOrdersComponent from "@/components/user/MyOrdersComponent";
 import UserOrderComponent from "@/components/UserOrderComponent";
+import RoomComponent from "@/components/rooms/RoomComponent";
 
 const user = localStorage.getItem("user");
 const routes = [
@@ -30,6 +31,12 @@ const routes = [
     component: EditProductComponent,
   },
   {
+    path: "/room/:id",
+    name: "editromm",
+    component: EditProductComponent,
+  },
+
+  {
     path: "/my-orders",
     component: MyOrdersComponent,
   },
@@ -39,39 +46,39 @@ const routes = [
     path: "/manualOrder",
     component: ManualOrderComponent,
     beforeEnter: (to, from) => {
-      // reject the navigation
       if (user)
         if (JSON.parse(user)["isAdmin"] == 1) return true;
         else return false;
     },
   },
 
-  { path: "/userOrder", component: UserOrderComponent },
+  { path: "/userOrder", component: UserOrderComponent,},
+  { path: "/room", component: RoomComponent,},
   { path: "/:catchAll(.*)", component: Handler },
 ];
 const router = createRouter({ history: createWebHistory(), routes });
 
-router.beforeEach((to, from, next) => {
-  console.log("inside middleware");
-  if (user !== null) {
-    if (typeof JSON.parse(user)["token"] !== "undefined") {
-      console.log(JSON.parse(user)["token"]);
-      console.log("token existed");
-      if (to.name !== "register" && to.name !== "login") next();
-      else next({ name: "/" });
-    } else if (to.name !== "register" && to.name !== "login") {
-      console.log(to.name);
-      console.log("test");
-      next({ name: "login" });
-    } else {
-      console.log("how comes");
-      next();
-    }
-  } else {
-    localStorage.setItem("user", JSON.stringify([]));
-    next({ name: "login" });
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   console.log("inside middleware");
+//   if (user !== null) {
+//     if (typeof JSON.parse(user)["token"] !== "undefined") {
+//       console.log(JSON.parse(user)["token"]);
+//       console.log("token existed");
+//       if (to.name !== "register" && to.name !== "login") next();
+//       else next({ name: "/" });
+//     } else if (to.name !== "register" && to.name !== "login") {
+//       console.log(to.name);
+//       console.log("test");
+//       next({ name: "login" });
+//     } else {
+//       console.log("how comes");
+//       next();
+//     }
+//   } else {
+//     localStorage.setItem("user", JSON.stringify([]));
+//     next({ name: "login" });
+//   }
+// });
 
 const app = createApp(Container);
 app.use(VueAxios, axios); // 👈
