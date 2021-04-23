@@ -1,6 +1,6 @@
 <template @submit.prevent>
 <!--  <form class="mt-5">-->
-  <h1>edit user </h1>
+  <h1>edit </h1>
   <br>
     <div class="mb-3 row">
       <label for="name" class="form-label col-md-3">Name</label>
@@ -88,7 +88,7 @@
   <input type="file" class="form-control col-md-8" v-on:change="onFileChange">
   </div>
 
-  <button type="submit" class="btn btn-primary" @click="register">update </button>
+  <button type="submit" class="btn btn-primary" @click="register">update</button> 
 <!--  </form>-->
 </template>
 

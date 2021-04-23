@@ -31,7 +31,7 @@
                             <td v-if="one.isAdmin!=1" >{{one.email}}</td>
                             <td  v-if="one.isAdmin!=1" >{{one.ext}}</td>
                              <td>
-                               <button v-if="one.isAdmin!=1" class="edit_delete btn  btn-secondary">edit</button>
+                               <button v-if="one.isAdmin!=1" @click="raiseedituser" class="edit_delete btn  btn-secondary">edit</button>
                                 <button v-if="one.isAdmin!=1"  class="btn btn-danger" @click="deleteUser(one.id)">delete </button>
                              </td>
                             
@@ -74,6 +74,10 @@ export default {
 
       this.$emit("addUserClicked") ; 
     } , 
+    raiseedituser(){
+
+      this.$emit("editUserClicked") ; 
+    } , 
       deleteUser(id) {
         
 
@@ -87,13 +91,37 @@ export default {
 
 
       // axios.delete('http://127.0.0.1:8000/api/user' ,  {params: {'id': id}} )   
-console.log("access" , this.accessToken)
-   axios.delete('http://127.0.0.1:8000/api/user/'+id, {
+// console.log("access" , this.accessToken)
+   axios.delete(`http://127.0.0.1:8000/api/user/${id}`,
+    {
+  // headers: {
+  //             'Accept':"application/json",
+  //             'Authorization': `Bearer ${this.accessToken}`,
+  //           }
   headers: {
-              'Accept':"application/json",
-              'Authorization': `Bearer ${this.accessToken}`,
-            }},{_method : "delete"}
-  );
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${this.accessToken}`,
+        }
+            },
+            {_method : "delete"}
+  )
+  .then(response=>{
+              let data = response.data
+              console.log(data)
+              alert("deleted")
+            if (data.status === "Error")
+            {
+              console.log("error in deletion");
+            }
+            else {
+              // this.$router.push('login')
+              console.log("sucess routering ")
+            }
+
+            })
+
      
 
     } , 

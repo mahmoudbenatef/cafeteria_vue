@@ -1,11 +1,13 @@
 <template>
-<component :is="target"  @addUserClicked="mytarget"/>   
+<component :is="target" @editUserClicked="mytarget2"  @addUserClicked="mytarget"/>   
 
 </template>
 
 <script>
  import AdminListUsers from "./AdminUserListComponent" 
   import Register from "./RegisterComponent" 
+    import UpdateUser from "./UserEditByAdmin" 
+
 
 export default {
     data (){
@@ -21,7 +23,12 @@ export default {
         mytarget(){
 
             this.target = "Register"
+        },
+        mytarget2(){
+
+            this.target = "UpdateUser"
         }
+
 
 
     } , 
@@ -29,7 +36,8 @@ export default {
   components:{
     
          AdminListUsers , 
-         Register
+         Register ,
+         UpdateUser
 
     
   }
