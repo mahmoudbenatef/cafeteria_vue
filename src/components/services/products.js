@@ -1,7 +1,7 @@
 import hostUrl from "./hostUrl";
 import axios from "axios";
 const proudctsUrl = hostUrl + "product";
-const token = "Bearer " + JSON.parse(localStorage.getItem("user"))["token"];
+const token = JSON.parse(localStorage.getItem("user"));
 export default {
   getAllProudct: () => {
     return fetch(proudctsUrl, {
@@ -10,7 +10,7 @@ export default {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        Authorization: token,
+        Authorization: "Bearer " + token["token"],
       },
     });
   },
@@ -18,7 +18,7 @@ export default {
   createProudct: (proudct) => {
     return axios.post(proudctsUrl, proudct, {
       headers: {
-        Authorization: token,
+        Authorization: "Bearer " + token["token"],
         "Content-Type":
           "multipart/form-data; charset=utf-8; boundary=" +
           Math.random()
@@ -31,7 +31,7 @@ export default {
   updateProudct: (id, proudct) => {
     return axios.patch(proudctsUrl + `/${id}`, proudct, {
       headers: {
-        Authorization: token,
+        Authorization: "Bearer " + token["token"],
       },
     });
   },
@@ -39,7 +39,7 @@ export default {
   deleteProduct: (id) => {
     return axios.delete(proudctsUrl + `/${id}`, {
       headers: {
-        Authorization: token,
+        Authorization: "Bearer " + token["token"],
       },
     });
   },
@@ -47,7 +47,7 @@ export default {
   getProudctById: (id) => {
     return axios.get(proudctsUrl + `/${id}`, {
       headers: {
-        Authorization: token,
+        Authorization: "Bearer " + token["token"],
       },
     });
   },
@@ -56,7 +56,7 @@ export default {
     return axios.get(hostUrl + "categoryLookup", {
       method: "GET",
       headers: {
-        Authorization: token,
+        Authorization: "Bearer " + token["token"],
       },
     });
   },
