@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'name'in errors">
+      <p v-if="'name'in errors" class="errors">
         {{errors["name"][0]}}
       </p>
     </div>
@@ -21,7 +21,7 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'email'in errors">
+      <p v-if="'email'in errors" class="errors">
         {{errors["email"][0]}}
       </p>
     </div>
@@ -35,7 +35,7 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'password'in errors">
+      <p v-if="'password'in errors" class="errors">
         {{errors["password"][0]}}
       </p>
     </div>
@@ -48,7 +48,7 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'c_password'in errors">
+      <p v-if="'c_password'in errors" class="errors">
         {{errors["c_password"][0]}}
       </p>
     </div>
@@ -65,7 +65,7 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'room_id'in errors">
+      <p v-if="'room_id'in errors" class="errors">
         {{errors["room_id"][0]}}
       </p>
     </div>
@@ -78,7 +78,7 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'ext'in errors">
+      <p v-if="'ext'in errors" class="errors">
         {{errors["ext"][0]}}
       </p>
     </div>
@@ -87,13 +87,22 @@
   <label for="name" class="form-label col-md-3">Profile pic</label>
   <input type="file" class="form-control col-md-8" v-on:change="onFileChange">
   </div>
-
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+      <p v-if="'photo'in errors" class="errors">
+        {{errors["photo"][0]}}
+      </p>
+    </div>
+  </div>
   <button type="submit" class="btn btn-primary" @click="register">Register</button>
 <!--  </form>-->
 </template>
 
 <script>
 import axios from 'axios';
+import roomServices from "@/components/services/rooms";
+import userAuthServices from "@/components/services/userAuth";
 
 export default {
   name: 'Register',
@@ -118,7 +127,9 @@ export default {
     onFileChange(e){
       this.photo = e.target.files[0];
     },
+
     register() {
+      this.errors={}
       console.log(this.user.room_id,"roooooooooooooooooooooooooooom")
       let formData = new FormData()
       formData.append('photo', this.photo)
@@ -126,24 +137,19 @@ export default {
           formData.append(key, value)
       }
       console.log(formData)
-      axios.post('http://127.0.0.1:8000/api/register', formData, {
-            headers: {
-              'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
-            }
-          }
-      )
+      // axios.post('http://127.0.0.1:8000/api/register', formData, {
+      //       headers: {
+      //         'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
+      //       }
+      //     }
+      // )
+          userAuthServices.register(formData)
             .then(response=>{
-              let data = response.data
-              console.log("here")
-            if (data.status === "Error")
-            {
-              this.errors = data.message;
-            }
-            else {
               this.$router.push('login')
-            }
-
             })
+              .catch((err) => {
+                this.errors = err.response.data.message
+              })
 
 
 
@@ -155,12 +161,13 @@ export default {
         // })
     }
     },
+
   created() {
-    fetch('http://127.0.0.1:8000/api/room')
-        .then(response => response.json())
-        .then(json => {this.rooms=json.data
-          console.log(this.rooms)
-        })
+
+    roomServices.getAllRooms()
+        .then((json) => {
+          this.rooms = json.data.data;
+        });
   }
 
 

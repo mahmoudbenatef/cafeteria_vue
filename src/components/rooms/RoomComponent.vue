@@ -23,6 +23,7 @@
 import services from "../services/rooms.js";
 import AddRoomComponent from "@/components/rooms/AddRoomComponent";
 import EditRoomComponent from "@/components/rooms/EditRoomComponent";
+import roomServices from "@/components/services/rooms";
 
 export default {
   name: 'HelloWorld',
@@ -39,38 +40,27 @@ export default {
     }
   },
   methods: {
-    async getAllRooms() {
-      const res = await services.getAllRooms();
-      const data = await res.json();
-      console.log(data)
-      this.rooms = data['data']
-      console.log(this.rooms)
-    },
-    async deleteRoom(id) {
-      const res = await services.getAllRooms();
-      const data = await res.json();
-      console.log(data)
-      this.rooms = data['data']
-      console.log(this.rooms)
-
+     getAllRooms() {
+      roomServices.getAllRooms()
+          .then((json) => {
+            this.rooms = json.data.data;
+          });
     },
     async addRoom(room) {
       this.addRoomErrors=[]
-      const res = services.createRoom(room)
-          .then((response) => {
-            console.log(response);
-            if (response.data.status == "success") {
-    this.getAllRooms()
-            } else {
-              console.log("howwwwwwwwwwww");
-            }
-          })
-          .catch((err) => {
-            console.log(err.response.data.message);
-            this.addRoomErrors = err.response.data.message;
-          });
+        services.createRoom(room)
+          .then((json) => {
+            if (json.data.status == "success") {
+              this.getAllRooms()
+                      } else {
+                        console.log("howwwwwwwwwwww");
+                      }
+          })    .catch( (err) =>
+        {
+          this.addRoomErrors=err.response.data.message})
     },
     editRoom(room){
+       this.addRoomErrors=[]
       console.log("here")
       this.roomToBeEdited = room
       this.editing= true
@@ -84,8 +74,10 @@ export default {
          this.roomToBeEdited={}
          this.addRoomErrors=[]
         }
-      }).catch( (err) =>
-      {this.addRoomErrors=err.response.data.message})
+      })
+          .catch( (err) =>
+      {
+      this.addRoomErrors=err.response.data.message})
     }
   },
   created() {

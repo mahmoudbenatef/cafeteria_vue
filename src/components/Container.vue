@@ -43,6 +43,8 @@ export default {
     checkUser() {
       if (localStorage.getItem("user") !== null)
         this.user = JSON.parse(localStorage.getItem("user"));
+      else
+        this.user=-1
     },
   },
   computed: {
