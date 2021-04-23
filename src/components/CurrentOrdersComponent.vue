@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="border" v-for="order in currentOrders" :key="order.id">
+    <div class="border mb-3" v-for="order in currentOrders" :key="order.id">
       <table class="table table table-striped table-active table-bordered">
         <thead>
           <tr>
@@ -25,12 +25,12 @@
       </table>
 
       <div class="row">
-        <div class="col" v-for="product in order.products" :key="product.id">
+        <div class="col text-center" v-for="product in order.products" :key="product.id">
           <img
             :src="product.photo"
             alt="product image"
             class="img-fluid"
-            style="max-height: 100px"
+            style="height: 100px"
           />
           <h3>{{ product.name }}</h3>
           <h4>{{ product.quantity }}</h4>
@@ -45,8 +45,6 @@
 
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -60,7 +58,7 @@ export default {
       const selectedOrder = JSON.stringify(order);
       console.log(selectedOrder);
 
-      fetch(`http://127.0.0.1:8000/api/order/1`, {
+      fetch(`http://127.0.0.1:8000/api/order/${order.id}`, {
         method: "PUT",
         headers: {
           Accept: "application/json",
@@ -68,12 +66,7 @@ export default {
           "Access-Control-Allow-Origin": "*",
           Authorization: `Bearer ${this.accessToken}`,
         },
-      })
-        // .then((response) => response.json())
-        // .then((json) => console.log(json));
-      // .then((response) => console.log(response.json()))
-
-      .then((data) => {
+      }).then((data) => {
         console.log(data);
         console.log(data.message);
         if (data.status === "Error") {
@@ -84,12 +77,9 @@ export default {
               this.currentOrders.splice(i, 1);
               break;
             }
-            
           }
         }
       });
-
-      
     },
     getAccessToken() {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -99,8 +89,14 @@ export default {
 
   created() {
     this.getAccessToken();
-
-    fetch("http://127.0.0.1:8000/api/order")
+    fetch("http://127.0.0.1:8000/api/order", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((json) => {
         this.currentOrders = json.data;
