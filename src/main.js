@@ -15,7 +15,7 @@ import ProductsComponent from "@/components/products/ProductsComponent";
 import EditProductComponent from "@/components/products/EditProductComponent";
 import ManualOrderComponent from "@/components/ManualOrderComponent";
 import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
-
+import MyOrdersComponent from "@/components/user/MyOrdersComponent";
 import UserOrderComponent from "@/components/UserOrderComponent";
 
 const user = localStorage.getItem("user");
@@ -29,7 +29,10 @@ const routes = [
     name: "editproduct",
     component: EditProductComponent,
   },
-
+  {
+    path: "/my-orders",
+    component: MyOrdersComponent,
+  },
   { path: "/orders", component: CurrentOrdersComponent },
 
   {
