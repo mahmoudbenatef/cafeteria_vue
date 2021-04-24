@@ -22,7 +22,12 @@ import GithubLoginComponet from "@/components/GithubLoginComponet"
 
 const user = localStorage.getItem("user");
 const routes = [
-  { path: "/", name: "/", component: HelloWorld },
+  { path: "/home", name: "home", component: HelloWorld, beforeEnter: (to, from,next) => {
+    if (user)
+      if (JSON.parse(user)["isAdmin"] == 1) return true;
+      else  next('/userOrder');;
+  }, },
+  
   { path: "/register", name: "register", component: RegisterComponent },
   { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
   { path: "/login", name: "login", component: LoginComponent },
@@ -47,10 +52,10 @@ const routes = [
   {
     path: "/manualOrder",
     component: ManualOrderComponent,
-    beforeEnter: (to, from) => {
+    beforeEnter: (to, from,next) => {
       if (user)
         if (JSON.parse(user)["isAdmin"] == 1) return true;
-        else return false;
+        else  next('/userOrder');;
     },
   },
 

@@ -23,31 +23,31 @@ export default {
   },
   methods: {
     checkAuth() {
-      // console.log(this.$router.currentRoute["value"]["path"]);
-      // if((this.$router.currentRoute["value"]["path"] == "/authorize/github/callback")){
+      console.log(this.$router.currentRoute["value"]["path"]);
+      if((this.$router.currentRoute["value"]["path"] == "/authorize/github/callback")||(this.$router.currentRoute["value"]["path"] == "/")){
         
-      //   console.log("ssss");
-      // }
-      // else if (
-      //   typeof localStorage.getItem("user") == "undefined" ||
-      //   localStorage.getItem("user") === "" ||
-      //   localStorage.getItem("user") === null
-      // ) {
+        console.log("im here");
+      }
+      else if (
+        typeof localStorage.getItem("user") == "undefined" ||
+        localStorage.getItem("user") === "" ||
+        localStorage.getItem("user") === null
+      ) {
       
-      //   this.auth = false;
+        this.auth = false;
         
         
-      //   if (!(this.$router.currentRoute["value"]["path"] == "/register")
-      //   )
-      //     this.$router.push("login");
-      // } else if (
-      //   this.$router.currentRoute["value"]["path"] === "/register" ||
-      //   this.$router.currentRoute["value"]["path"] === "/login"
-      // ) {
-      //   this.$router.push("/");
-      // } else {
-      //   this.auth = true;
-      // }
+        if (!(this.$router.currentRoute["value"]["path"] == "/register")
+        )
+          this.$router.push("login");
+      } else if (
+        this.$router.currentRoute["value"]["path"] === "/register" ||
+        this.$router.currentRoute["value"]["path"] === "/login"
+      ) {
+        this.$router.push("/home");
+      } else {
+        this.auth = true;
+      }
     },
     checkUser() {
       if (localStorage.getItem("user") !== null)

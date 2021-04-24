@@ -15,23 +15,25 @@ export default {
   },
   components: {},
   methods: {
-    githubLogin() {
-      fetch("http://localhost:8000/api/authorize/github/callback?code="+this.$route.query.code)
-        .then((response) => response.json())
-        .then((data) => {
-           console.log(data);
+   async githubLogin() {
+     let json=await fetch("http://localhost:8000/api/authorize/github/callback?code="+this.$route.query.code)
+        //.then((response) => response.json())
+      let data=await json.json();
+      // .then((data) => {
+            console.log(data);
         
         //   window.location.href=data.url;
            if (data.status === "Error") {
             this.errors = data.message;
           } else {
             localStorage.setItem("user", JSON.stringify(data["user"]));
-            this.$router.push("/");
+            this.$router.push("/home");
+            window.location.href="http://localhost:8080/home";
           }
          
           
          
-        });
+        // });
         
         
     },

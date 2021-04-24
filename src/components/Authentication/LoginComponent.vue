@@ -62,7 +62,7 @@ export default {
         const res = await  userAuth.login(JSON.stringify(this.user))
         console.log(res.data["user"])
           localStorage.setItem("user", JSON.stringify(res.data["user"]))
-        this.$router.push('/')
+        this.$router.push('/home')
       } catch (error) {
 
         if (error.response) {
