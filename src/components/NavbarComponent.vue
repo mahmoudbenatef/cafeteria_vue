@@ -11,7 +11,7 @@
       <div class="collapse navbar-collapse" id="">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <router-link class=" nav-link active" aria-current="page" to="/room">Rooms</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -33,6 +33,13 @@
             </li>
           </ul>
         </div>
+        <div class="d-flex ">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -44,6 +51,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="d-flex ">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
+            </li>
+          </ul>
+        </div>
           <li class="nav-item">
             <router-link class="navbar-brand" to="/userOrder">Order</router-link>
           </li>
@@ -51,6 +65,7 @@
             <a class="nav-link" href="#">Link</a>
           </li>
           <li class="nav-item dropdown">
+            
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown
             </a>
@@ -81,6 +96,12 @@ export default {
   name: 'HelloWorld',
   props: {
     user: String
+  },methods:{
+    Logout(){
+      localStorage.removeItem("user")
+      this.$router.push("/login");
+
+    }
   }
 }
 </script>

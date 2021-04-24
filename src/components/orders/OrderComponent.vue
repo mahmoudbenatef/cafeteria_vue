@@ -1,7 +1,7 @@
 <template>
   <template>{{ calcTotalPrice() }}</template>
   <table class="table">
-    <p v-if="'products' in errors" class="bg-warning">
+    <p v-if="'products' in errors" class="errors">
       {{ errors["products"][0] }}
     </p>
     <tbody v-if="products.length > 0">
@@ -36,7 +36,7 @@
     </select>
   </div>
 
-  <p v-if="'room' in errors" class="bg-warning">
+  <p v-if="'room' in errors" class="errors">
     {{ errors["room"][0] }}
   </p>
   <div class="mb-3 row">
@@ -60,7 +60,8 @@
 </template>
 <script>
 import axios from "axios";
-
+import Order from "../services/order"
+import roomServices from "@/components/services/rooms";
 export default {
   name: "HelloWorld",
   data() {
@@ -70,7 +71,7 @@ export default {
       totalPrice: 0,
       room: "",
       notes: "",
-      accessToken: "",
+      // accessToken: "",
     };
   },
   props: {
@@ -97,13 +98,8 @@ export default {
       formData.append("price", this.totalPrice);
       formData.append("user_id", this.user_id);
       console.log(formData);
-      axios
-        .post("http://127.0.0.1:8000/api/order", formData, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${this.accessToken}`,
-          },
-        })
+
+      Order.createOrder(formData)
         .then((response) => {
           console.log(response);
           if (response.data.status == "done") {
@@ -111,17 +107,6 @@ export default {
           } else {
             console.log("howwwwwwwwwwww");
           }
-
-          // let data = response.data
-          // console.log("here")
-          // if (data.status === "Error")
-          // {
-          //   this.errors = data.message;
-          // }
-          // else {
-          //
-          //   // this.$router.push('login')
-          // }
         })
         .catch((err) => {
           console.log(err.response.data.message);
@@ -141,38 +126,17 @@ export default {
         product.quantity -= 1;
       }
     },
-    getAccessToken() {
-      const token = JSON.parse(localStorage.getItem("user"));
-      this.accessToken = token["token"];
-    },
-  },
-  created() {
-    this.getAccessToken();
 
-    fetch("http://127.0.0.1:8000/api/room")
-      .then((response) => response.json())
-      .then((json) => {
-        this.rooms = json.data;
-        console.log(this.rooms);
-      });
+  },
+  async created() {
+    roomServices.getAllRooms()
+        .then((json) => {
+          this.rooms = json.data.data;
+        });
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 </style>

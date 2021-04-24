@@ -1,4 +1,5 @@
 <template @submit.prevent>
+<template>{{githubLogin()}}</template>
  <div>
      <h1>login with githubsss</h1>
  </div>
@@ -39,9 +40,9 @@ export default {
     
   },
    created(){
-          this.githubLogin();
-          console.log("test");
-          console.log(this.$route.query.code)
+          // this.githubLogin();
+          // console.log("test");
+          // console.log(this.$route.query.code)
               
           },
 };

@@ -1,0 +1,111 @@
+<template>
+  <AddRoomComponent v-if="!editing" v-bind:errors="addRoomErrors" v-bind:room="room" @addRoom="addRoom"></AddRoomComponent>
+  <EditRoomComponent v-if="editing" v-bind:errors="addRoomErrors" v-bind:room="roomToBeEdited" @updateRoom="updateRoom"></EditRoomComponent>
+  <table class="table table-borderd">
+    <thead>
+    <tr>
+      <th>room number</th>
+      <th colspan="1">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="room in rooms">
+      <td> {{ room.number }}</td>
+      <td>
+          <button @click="editRoom(room)" class="btn btn-link">edit</button>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</template>
+<script>
+import services from "../services/rooms.js";
+import AddRoomComponent from "@/components/rooms/AddRoomComponent";
+import EditRoomComponent from "@/components/rooms/EditRoomComponent";
+import roomServices from "@/components/services/rooms";
+
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      rooms: [],
+      room:"",
+      addRoomErrors: [],
+      editing:false,
+      roomToBeEdited:{}
+    }
+  },
+  methods: {
+     getAllRooms() {
+      roomServices.getAllRooms()
+          .then((json) => {
+            this.rooms = json.data.data;
+          });
+    },
+    async addRoom(room) {
+      this.addRoomErrors=[]
+        services.createRoom(room)
+          .then((json) => {
+            if (json.data.status == "success") {
+              this.getAllRooms()
+                      } else {
+                        console.log("howwwwwwwwwwww");
+                      }
+          })    .catch( (err) =>
+        {
+          this.addRoomErrors=err.response.data.message})
+    },
+    editRoom(room){
+       this.addRoomErrors=[]
+      console.log("here")
+      this.roomToBeEdited = room
+      this.editing= true
+    },
+    updateRoom(room){
+      services.updateRoom(room.id,room.number).then((response) =>{
+        if (response.data.status == "success") {
+          console.log("ergaaaaaaaaaaaaaaaaa3")
+          this.getAllRooms()
+          this.editing=false
+         this.roomToBeEdited={}
+         this.addRoomErrors=[]
+        }
+      })
+          .catch( (err) =>
+      {
+      this.addRoomErrors=err.response.data.message})
+    }
+  },
+  created() {
+    this.getAllRooms()
+  },
+  components: {
+    EditRoomComponent,
+    AddRoomComponent
+  }
+}
+</script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+a {
+  color: #42b983;
+}
+</style>
