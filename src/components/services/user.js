@@ -20,4 +20,13 @@ export default {
       },
     });
   },
+  getUsers: ()=>{
+    return axios.get(usersUrl,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user["token"],
+      },
+
+    })
+  }
 };

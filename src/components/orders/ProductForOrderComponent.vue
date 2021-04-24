@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-
+import userServices from "../services/user"
+import productServices from "../services/products"
 export default {
   name: 'HelloWorld',
   data(){
@@ -25,23 +25,12 @@ export default {
       console.log(product)
       this.$emit("addProduct",product)
     },
-  getAccessToken (){
-    console.log("getting token")
-    this.accessToken = localStorage.getItem("user")["token"]
-    console.log(this.accessToken = JSON.parse(localStorage.getItem("user"))["token"])
-  }
   },
   props: {
     msg: String
   },
   created() {
-    this.getAccessToken()
-    axios.get('http://127.0.0.1:8000/api/user', {
-      headers: {
-        'Authorization': `Bearer ${this.accessToken}`,
-        'Accept':"application/json"
-      }
-    })
+    userServices.getUsers()
         .then((res) => {
           this.users= res.data.data
         })
@@ -51,12 +40,7 @@ export default {
 
 
 
-    axios.get('http://127.0.0.1:8000/api/product', {
-      headers: {
-        'Authorization': `Bearer ${this.accessToken}`,
-        'Accept':"application/json"
-      }
-    })
+    productServices.getProducts()
         .then((res) => {
           this.products= res.data.data
           console.log(this.products)

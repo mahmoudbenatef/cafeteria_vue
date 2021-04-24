@@ -5,7 +5,7 @@
 
 <script>
  import AdminListUsers from "./AdminUserListComponent" 
-  import Register from "./RegisterComponent" 
+  import Register from "./Authentication/RegisterComponent"
     import UpdateUser from "./UserEditByAdmin" 
 
 
