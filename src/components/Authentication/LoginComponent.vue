@@ -36,6 +36,7 @@
     </div>
   </div>
   <button type="submit" class="btn btn-primary m-3" @click="login">Login</button>
+    <a class="btn btn-primary m-3" @click="githubLogin">login with github</a>
   <router-link to="register" class="btn btn-primary">Register</router-link>
 
   <!--  </form>-->
@@ -61,7 +62,7 @@ export default {
         const res = await  userAuth.login(JSON.stringify(this.user))
         console.log(res.data["user"])
           localStorage.setItem("user", JSON.stringify(res.data["user"]))
-        this.$router.push('/')
+        this.$router.push('/home')
       } catch (error) {
 
         if (error.response) {
@@ -74,7 +75,18 @@ export default {
           console.log(error.response.headers);
         }
         }
-    }
+    },
+      githubLogin() {
+      fetch("http://localhost:8000/api/authorize/github/redirect")
+        .then((response) => response.json())
+        .then((data) => {
+          if(data.url){
+          console.log(data.url);
+          window.location.href=data.url;
+          }
+         
+        });
+    },
   }
 }
 </script>

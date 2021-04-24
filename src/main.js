@@ -18,11 +18,18 @@ import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
 import MyOrdersComponent from "@/components/user/MyOrdersComponent";
 import UserOrderComponent from "@/components/orders/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
+import GithubLoginComponet from "@/components/GithubLoginComponet"
 
 const user = localStorage.getItem("user");
 const routes = [
-  { path: "/", name: "/", component: HelloWorld },
+  { path: "/home", name: "home", component: HelloWorld, beforeEnter: (to, from,next) => {
+    if (user)
+      if (JSON.parse(user)["isAdmin"] == 1) return true;
+      else  next('/userOrder');;
+  }, },
+  
   { path: "/register", name: "register", component: RegisterComponent },
+  { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
   {
@@ -45,10 +52,10 @@ const routes = [
   {
     path: "/manualOrder",
     component: ManualOrderComponent,
-    beforeEnter: (to, from) => {
+    beforeEnter: (to, from,next) => {
       if (user)
         if (JSON.parse(user)["isAdmin"] == 1) return true;
-        else return false;
+        else  next('/userOrder');;
     },
   },
 
@@ -58,27 +65,7 @@ const routes = [
 ];
 const router = createRouter({ history: createWebHistory(), routes });
 
-// router.beforeEach((to, from, next) => {
-//   console.log("inside middleware");
-//   if (user !== null) {
-//     if (typeof JSON.parse(user)["token"] !== "undefined") {
-//       console.log(JSON.parse(user)["token"]);
-//       console.log("token existed");
-//       if (to.name !== "register" && to.name !== "login") next();
-//       else next({ name: "/" });
-//     } else if (to.name !== "register" && to.name !== "login") {
-//       console.log(to.name);
-//       console.log("test");
-//       next({ name: "login" });
-//     } else {
-//       console.log("how comes");
-//       next();
-//     }
-//   } else {
-//     localStorage.setItem("user", JSON.stringify([]));
-//     next({ name: "login" });
-//   }
-// });
+
 
 const app = createApp(Container);
 app.use(VueAxios, axios); // 👈

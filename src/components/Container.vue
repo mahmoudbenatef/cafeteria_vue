@@ -23,19 +23,28 @@ export default {
   },
   methods: {
     checkAuth() {
-      if (
+      console.log(this.$router.currentRoute["value"]["path"]);
+      if((this.$router.currentRoute["value"]["path"] == "/authorize/github/callback")||(this.$router.currentRoute["value"]["path"] == "/")){
+        
+        console.log("im here");
+      }
+      else if (
         typeof localStorage.getItem("user") == "undefined" ||
         localStorage.getItem("user") === "" ||
         localStorage.getItem("user") === null
       ) {
+      
         this.auth = false;
-        if (!(this.$router.currentRoute["value"]["path"] == "/register"))
+        
+        
+        if (!(this.$router.currentRoute["value"]["path"] == "/register")
+        )
           this.$router.push("login");
       } else if (
         this.$router.currentRoute["value"]["path"] === "/register" ||
         this.$router.currentRoute["value"]["path"] === "/login"
       ) {
-        this.$router.push("/");
+        this.$router.push("/home");
       } else {
         this.auth = true;
       }
