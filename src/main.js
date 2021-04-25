@@ -18,7 +18,8 @@ import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
 import MyOrdersComponent from "@/components/user/MyOrdersComponent";
 import UserOrderComponent from "@/components/orders/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
-import GithubLoginComponet from "@/components/GithubLoginComponet"
+import CategoryComponet from "@/components/categories/categoryComponent";
+import GithubLoginComponet from "@/components/GithubLoginComponet";
 
 const routes = [
   { path: "/home", name: "home", component: HelloWorld,
@@ -72,6 +73,8 @@ const routes = [
 
   { path: "/userOrder", component: UserOrderComponent,},
   { path: "/room", component: RoomComponent,},
+  //CategoryComponet
+  { path: "/cateogy", component: CategoryComponet,},
   { path: "/:catchAll(.*)", component: Handler },
 ];
 const router = createRouter({ history: createWebHistory(), routes });
