@@ -59,10 +59,11 @@ export default {
   methods: {
     async login() {
       try {
-        const res = await  userAuth.login(JSON.stringify(this.user))
-        console.log(res.data["user"])
+          const res = await  userAuth.login(JSON.stringify(this.user))
+          console.log(res.data["user"])
           localStorage.setItem("user", JSON.stringify(res.data["user"]))
-        this.$router.push('/home')
+          console.log("msa2ak laziz")
+          this.$router.push('/home')
       } catch (error) {
 
         if (error.response) {
