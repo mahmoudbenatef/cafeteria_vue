@@ -23,10 +23,26 @@ export default {
   },
   methods: {
     checkAuth() {
-      console.log(this.$router.currentRoute["value"]["path"]);
-      if((this.$router.currentRoute["value"]["path"] == "/authorize/github/callback")||(this.$router.currentRoute["value"]["path"] == "/")){
-        
+      if((this.$router.currentRoute["value"]["path"] == "/authorize/github/callback")){
         console.log("im here");
+      }
+      else if ((this.$router.currentRoute["value"]["path"] == "/")){
+        console.log("a7a ya din omyyy ")
+
+        setTimeout(()=>{
+          if (
+              typeof localStorage.getItem("user") == "undefined" ||
+              localStorage.getItem("user") === "" ||
+              localStorage.getItem("user") === null
+          ){
+            this.$router.push("login");
+
+          }
+          else {
+            // this.$router.push("manualOrder");
+
+          }
+        },1000)
       }
       else if (
         typeof localStorage.getItem("user") == "undefined" ||
@@ -44,6 +60,7 @@ export default {
         this.$router.currentRoute["value"]["path"] === "/register" ||
         this.$router.currentRoute["value"]["path"] === "/login"
       ) {
+        this.auth=true;
         this.$router.push("/home");
       } else {
         this.auth = true;

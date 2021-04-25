@@ -31,12 +31,13 @@ const routes = [
       {
         console.log("true awi")
         next()
-
       }
       else  next('/userOrder');
+
+      },
   },
-  },
-  
+  { path: "/register", name: "register", component: Container },
+
   { path: "/register", name: "register", component: RegisterComponent },
   { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
   { path: "/login", name: "login", component: LoginComponent },

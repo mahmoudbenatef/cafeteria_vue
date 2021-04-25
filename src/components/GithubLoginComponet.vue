@@ -1,7 +1,7 @@
 <template @submit.prevent>
 <template>{{githubLogin()}}</template>
  <div>
-     <h1>login with githubsss</h1>
+     <h1>login with github</h1>
  </div>
 </template>
 
