@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="product in products" :key="product.id">
+      <tr v-for="product in products.data" :key="product.id">
         <td>{{ product.name }}</td>
         <td>{{ product.price }}</td>
         <td>
@@ -30,6 +30,32 @@
       </tr>
     </tbody>
   </table>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li
+        v-for="page in products['links']"
+        :key="page.label"
+        :class="[
+          'page-item',
+          page.active ? 'active' : '',
+          page.url == null ? 'disabled' : '',
+        ]"
+      >
+        <a
+          class="page-link"
+          @click.prevent="getAllProudct(page.url.split('=')[1])"
+        >
+          <span aria-hidden="true">
+            {{
+              page.label.split(" ")[1] == "Previous"
+                ? page.label.split(" ")[1]
+                : page.label.split(" ")[0]
+            }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>
@@ -37,15 +63,15 @@ import services from "../services/products";
 import addProduct from "./AddProductComponent";
 export default {
   data: () => ({
-    products: null,
+    products: {},
   }),
   oldProduct: {
     name: null,
     price: null,
   },
   methods: {
-    async getAllProudct() {
-      const res = await services.getAllProudct();
+    async getAllProudct(page) {
+      const res = await services.getAllProudct(page);
       const data = await res.json();
       this.products = data["data"];
     },

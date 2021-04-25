@@ -38,6 +38,7 @@ const routes = [
 
   {
     path: "/my-orders",
+    name: "myOrders",
     component: MyOrdersComponent,
   },
   { path: "/orders", component: CurrentOrdersComponent },
@@ -52,11 +53,20 @@ const routes = [
     },
   },
 
-  { path: "/userOrder", component: UserOrderComponent,},
-  { path: "/room", component: RoomComponent,},
+  { path: "/userOrder", component: UserOrderComponent },
+  { path: "/room", component: RoomComponent },
   { path: "/:catchAll(.*)", component: Handler },
 ];
 const router = createRouter({ history: createWebHistory(), routes });
+// router.afterEach
+
+router.beforeResolve((to, from, next) => {
+  NProgress.start();
+  next();
+});
+router.afterEach((to, from) => {
+  NProgress.done();
+});
 
 // router.beforeEach((to, from, next) => {
 //   console.log("inside middleware");
@@ -79,7 +89,10 @@ const router = createRouter({ history: createWebHistory(), routes });
 //     next({ name: "login" });
 //   }
 // });
-
+// Vue.component("myOrders", require("laravel-vue-pagination"));
 const app = createApp(Container);
-app.use(VueAxios, axios); // 👈
+// app.component("myOrders", DataTable);
+// app.component("myOrders", Column);
+
+app.use(VueAxios, axios); //
 app.use(router).mount("#app");
