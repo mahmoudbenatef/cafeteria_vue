@@ -3,26 +3,43 @@ import App from "./App.vue";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createWebHistory, createRouter } from "vue-router";
-import RegisterComponent from "@/components/RegisterComponent";
+import RegisterComponent from "@/components/Authentication/RegisterComponent";
 import Container from "@/components/Container";
 import Handler from "@/components/Handler";
 import HelloWorld from "@/components/HelloWorld";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import LoginComponent from "@/components/LoginComponent";
+import LoginComponent from "@/components/Authentication/LoginComponent";
 import ProductsComponent from "@/components/products/ProductsComponent";
 import EditProductComponent from "@/components/products/EditProductComponent";
-import ManualOrderComponent from "@/components/ManualOrderComponent";
+import ManualOrderComponent from "@/components/orders/ManualOrderComponent";
 import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
 import MyOrdersComponent from "@/components/user/MyOrdersComponent";
-import UserOrderComponent from "@/components/UserOrderComponent";
+import UserOrderComponent from "@/components/orders/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
+import GithubLoginComponet from "@/components/GithubLoginComponet"
 
-const user = localStorage.getItem("user");
 const routes = [
-  { path: "/", name: "/", component: HelloWorld },
+  { path: "/home", name: "home", component: HelloWorld,
+    beforeEnter: (to, from,next) => {
+      const user = localStorage.getItem("user");
+      console.log("hala wallah")
+      console.log(user)
+    if (user)
+      if (JSON.parse(user)["isAdmin"] == 1)
+      {
+        console.log("true awi")
+        next()
+      }
+      else  next('/userOrder');
+
+      },
+  },
+  { path: "/register", name: "register", component: Container },
+
   { path: "/register", name: "register", component: RegisterComponent },
+  { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
   {
@@ -46,10 +63,11 @@ const routes = [
   {
     path: "/manualOrder",
     component: ManualOrderComponent,
-    beforeEnter: (to, from) => {
+    beforeEnter: (to, from,next) => {
+      const user = localStorage.getItem("user");
       if (user)
-        if (JSON.parse(user)["isAdmin"] == 1) return true;
-        else return false;
+        if (JSON.parse(user)["isAdmin"] == 1) next();
+        else  next('/userOrder');;
     },
   },
 
@@ -68,28 +86,6 @@ router.afterEach((to, from) => {
   NProgress.done();
 });
 
-// router.beforeEach((to, from, next) => {
-//   console.log("inside middleware");
-//   if (user !== null) {
-//     if (typeof JSON.parse(user)["token"] !== "undefined") {
-//       console.log(JSON.parse(user)["token"]);
-//       console.log("token existed");
-//       if (to.name !== "register" && to.name !== "login") next();
-//       else next({ name: "/" });
-//     } else if (to.name !== "register" && to.name !== "login") {
-//       console.log(to.name);
-//       console.log("test");
-//       next({ name: "login" });
-//     } else {
-//       console.log("how comes");
-//       next();
-//     }
-//   } else {
-//     localStorage.setItem("user", JSON.stringify([]));
-//     next({ name: "login" });
-//   }
-// });
-// Vue.component("myOrders", require("laravel-vue-pagination"));
 const app = createApp(Container);
 // app.component("myOrders", DataTable);
 // app.component("myOrders", Column);

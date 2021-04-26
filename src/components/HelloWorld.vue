@@ -1,13 +1,26 @@
 <template>
 
 <h1>Home</h1>
+
+<AdminUserContainer></AdminUserContainer>
+
+
 </template>
 
 <script>
+ import AdminUserContainer from "./AdminUserContainer" 
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  } ,
+  components:{
+    
+         AdminUserContainer 
+         
+
+    
   }
 }
 </script>

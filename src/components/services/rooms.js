@@ -4,13 +4,11 @@ const roomsUrl = hostUrl + "room";
 const token = JSON.parse(localStorage.getItem("user"));
 export default {
   getAllRooms: () => {
-    return fetch(roomsUrl, {
-      method: "GET",
+    return  axios.get(roomsUrl,{
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + token["token"],
       },
     });
   },

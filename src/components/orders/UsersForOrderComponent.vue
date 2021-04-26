@@ -1,7 +1,7 @@
 <template>
     <label for="" class="form-label col-md-3">Users</label>
     <select v-model="user_id" @change="selectUser(user_id)" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
-      <option selected>Open this select menu</option>
+      <option selected v-bind:value="''">Open this select menu</option>
       <option v-for="user in users"   v-bind:value="user.id">{{ user.name }}</option>
     </select>
 
@@ -15,7 +15,7 @@ export default {
     return {
     users:[],
       accessToken:"",
-      user_id:-1,
+      user_id:'',
     }
   },
   methods:{

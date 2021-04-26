@@ -23,19 +23,45 @@ export default {
   },
   methods: {
     checkAuth() {
-      if (
+      if((this.$router.currentRoute["value"]["path"] == "/authorize/github/callback")){
+        console.log("im here");
+      }
+      else if ((this.$router.currentRoute["value"]["path"] == "/")){
+        console.log("a7a ya din omyyy ")
+
+        setTimeout(()=>{
+          if (
+              typeof localStorage.getItem("user") == "undefined" ||
+              localStorage.getItem("user") === "" ||
+              localStorage.getItem("user") === null
+          ){
+            this.$router.push("login");
+
+          }
+          else {
+            // this.$router.push("manualOrder");
+
+          }
+        },1000)
+      }
+      else if (
         typeof localStorage.getItem("user") == "undefined" ||
         localStorage.getItem("user") === "" ||
         localStorage.getItem("user") === null
       ) {
+      
         this.auth = false;
-        if (!(this.$router.currentRoute["value"]["path"] == "/register"))
+        
+        
+        if (!(this.$router.currentRoute["value"]["path"] == "/register")
+        )
           this.$router.push("login");
       } else if (
         this.$router.currentRoute["value"]["path"] === "/register" ||
         this.$router.currentRoute["value"]["path"] === "/login"
       ) {
-        this.$router.push("/");
+        this.auth=true;
+        this.$router.push("/home");
       } else {
         this.auth = true;
       }
@@ -43,6 +69,8 @@ export default {
     checkUser() {
       if (localStorage.getItem("user") !== null)
         this.user = JSON.parse(localStorage.getItem("user"));
+      else
+        this.user=-1
     },
   },
   computed: {

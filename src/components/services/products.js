@@ -14,7 +14,14 @@ export default {
       },
     });
   },
-
+  getProducts:()=>{
+  return   axios.get(proudctsUrl, {
+    headers: {
+      Authorization: "Bearer " + token["token"],
+      'Accept':"application/json"
+    }
+  })
+},
   createProudct: (proudct) => {
     return axios.post(proudctsUrl, proudct, {
       headers: {

@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import ProductForOrderComponent from "@/components/ProductForOrderComponent";
-import OrderComponent from "@/components/OrderComponent";
-import UsersForOrderComponent from "@/components/UsersForOrderComponent";
+import ProductForOrderComponent from "@/components/orders/ProductForOrderComponent";
+import OrderComponent from "@/components/orders/OrderComponent";
+import UsersForOrderComponent from "@/components/orders/UsersForOrderComponent";
 export default {
   name: 'HelloWorld',
   data(){
