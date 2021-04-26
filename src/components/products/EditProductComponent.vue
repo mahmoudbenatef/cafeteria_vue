@@ -84,7 +84,6 @@ export default {
     },
     errors: {},
     hasImage: false,
-    categories: null,
   }),
   methods: {
     async getProduct(id) {

@@ -29,7 +29,7 @@
 
   <div class="mb-3 row">
     <label for="exampleInputPassword1" class="form-label col-md-3">Password</label>
-    <input type="password" v-model="user.password" class="form-control col-md-8" id="exampleInputPassword1">
+    <input type="password" v-model="myuser.password" class="form-control col-md-8" id="exampleInputPassword1">
   </div>
 
   <div class="row">
@@ -45,7 +45,7 @@
 
   <div class="mb-3 row">
     <label for="exampleInputEmail1" class="form-label col-md-3">Room</label>
-    <select v-model="user.room_id" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
+    <select v-model="myuser.room_id" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
       <option selected>Open this select menu</option>
       <option v-for="room in rooms"   v-bind:value="room.id">{{ room.number }}</option>
     </select>
@@ -80,86 +80,68 @@
   <button type="submit" class="btn btn-primary" @click="updateData">update</button> 
 <!--  </form>-->
 </template>
-
 <script>
-import axios from 'axios';
-
+import services from "./services/user";
 export default {
-  name: 'UpdateUser',
-  data(){
-    return{
-      photo:"",
-      rooms:[],
+  data: () => ({
+       
      myuser:{
        name:"",
        email:'',
-       password:'',
-       c_password:'',
+        password:'',
+    //    c_password:'',
        room_id:'',
        ext:''
-     },
-      errors:{}
-    }
-  },
-  components:{
-  },
-  props : ['myuser']  ,
-
-  methods:{
-    testme() {
-        console.log("edit user ",this.myuser )
-
-
-    } , 
-    onFileChange(e){
-      // this.photo = e.target.files[0];
-      this.photo = e.target.files[0];
     },
-    updateData() {
-console.log(this.myuser)
-      // console.log(this.user.room_id,"roooooooooooooooooooooooooooom")
-      let formData = new FormData()
-      // formData.append('photo', this.photo)
-      for (const [key, value] of Object.entries(this.myuser)) {
-          formData.append(key, value)
+    errors: {},
+    hasImage: false,
+    categories: null,
+  }),
+  methods: {
+    async getUser(id) {
+      const response = await services.getUserById(id);
+      this.myuser = response["data"]["data"];
+    },
+
+    
+    uploadImage(e) {
+      this.myuser.photo = e.target.files[0];
+      this.hasImage = true;
+    },
+    validateForm() {
+      this.errors = {};
+      //   let isValid = this.product.category_id != "null" ;
+      // //   || this.product.price != "";
+      //   console.log(isValid);
+      for (const key in this.product) {
+        this.myuser[key] == null && (this.errors[key] = `${key} is required`);
       }
-      console.log("beforesend",formData)
-      axios.put('http://127.0.0.1:8000/api/register', formData, {
-            headers: {
-              'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
-            }
-          }
-      )
-            .then(response=>{
-              let data = response.data
-              console.log("here edit done")
-            if (data.status === "Error")
-            {
-              this.errors = data.message;
-            }
-            else {
-              this.$router.push('login')
-            }
-
-            })
-
-
-
-
-    }
+      return Object.keys(this.errors).length == 0 ? true : false;
     },
+    async updateData() {
+      if (this.validateForm()) {
+        let response;
+        if (this.hasImage) {
+          let formData = new FormData();
+          for (const [key, value] of Object.entries(this.myuser)) {
+            formData.append(key, value);
+          }
+          response = await services.updateUser(this.myuser.id, formData);
+        } else {
+          response = await services.updateUser(
+            this.myuser.id,
+            this.myuser
+          );
+        }
+        response["data"]["status"] == "success"
+          ? this.$router.push("/login")
+          : (this.errors = response["data"]["message"]);
+      }
+    },
+  },
   created() {
-    fetch('http://127.0.0.1:8000/api/room')
-        .then(response => response.json())
-        .then(json => {this.rooms=json.data
-          console.log(this.rooms)
-        })
-  }
-
-
-}
+    this.getUser(this.$route.params.id);
+  
+  },
+};
 </script>
-
-<style scoped>
-
-</style>

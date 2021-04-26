@@ -20,4 +20,19 @@ export default {
       },
     });
   },
+  updateUser: (id, user) => {
+    return axios.patch(usersUrl + `/${id}`, user, {
+      headers: {
+        // Authorization: "Bearer " + token["token"],
+      },
+    });
+  },
+  getUserById: (id) => {
+    return axios.get(usersUrl + `/${id}`, {
+      headers: {
+        // Authorization: "Bearer " + token["token"],
+      },
+    });
+  }
+
 };

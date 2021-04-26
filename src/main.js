@@ -18,6 +18,7 @@ import CurrentOrdersComponent from "@/components/CurrentOrdersComponent";
 import MyOrdersComponent from "@/components/user/MyOrdersComponent";
 import UserOrderComponent from "@/components/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
+import AdminUserContainer from "@/components/AdminUserContainer" 
 
 const user = localStorage.getItem("user");
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
   { path: "/register", name: "register", component: RegisterComponent },
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
+  { path: "/admin", name: "admin", component: AdminUserContainer },
   {
     path: "/product/:id",
     name: "editproduct",

@@ -8,7 +8,6 @@
 </template>
 
 <script>
- import AdminUserContainer from "./AdminUserContainer" 
 
 export default {
   name: 'HelloWorld',
@@ -17,7 +16,6 @@ export default {
   } ,
   components:{
     
-         AdminUserContainer 
          
 
     
