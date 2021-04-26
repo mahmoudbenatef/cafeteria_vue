@@ -58,6 +58,7 @@
 import services from "../services/rooms.js";
 import AddRoomComponent from "@/components/rooms/AddRoomComponent";
 import EditRoomComponent from "@/components/rooms/EditRoomComponent";
+import roomServices from "@/components/services/rooms";
 
 export default {
   name: "HelloWorld",

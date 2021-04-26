@@ -1,6 +1,6 @@
 <template>
   <h1>
-    There is no routes with this uri
+loading...
   </h1>
 </template>
 
