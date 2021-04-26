@@ -56,6 +56,7 @@ const routes = [
 
   {
     path: "/my-orders",
+    name: "myOrders",
     component: MyOrdersComponent,
   },
   { path: "/orders", component: CurrentOrdersComponent },
@@ -75,12 +76,23 @@ const routes = [
   { path: "/room", component: RoomComponent,},
   //CategoryComponet
   { path: "/cateogy", component: CategoryComponet,},
+
   { path: "/:catchAll(.*)", component: Handler },
 ];
 const router = createRouter({ history: createWebHistory(), routes });
+// router.afterEach
 
-
+router.beforeResolve((to, from, next) => {
+  NProgress.start();
+  next();
+});
+router.afterEach((to, from) => {
+  NProgress.done();
+});
 
 const app = createApp(Container);
-app.use(VueAxios, axios); // 👈
+// app.component("myOrders", DataTable);
+// app.component("myOrders", Column);
+
+app.use(VueAxios, axios); //
 app.use(router).mount("#app");

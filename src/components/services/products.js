@@ -3,8 +3,8 @@ import axios from "axios";
 const proudctsUrl = hostUrl + "product";
 const token = JSON.parse(localStorage.getItem("user"));
 export default {
-  getAllProudct: () => {
-    return fetch(proudctsUrl, {
+  getAllProudct: (page = 1) => {
+    return fetch(proudctsUrl + "?page=" + page, {
       method: "GET",
       headers: {
         Accept: "application/json",
