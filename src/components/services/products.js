@@ -14,6 +14,18 @@ export default {
       },
     });
   },
+  listAllProducts:()=>{
+    return axios.get(hostUrl + "listAllProducts" , {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + token["token"],
+      },
+    });
+  },
+
   getProducts:()=>{
   return   axios.get(proudctsUrl, {
     headers: {

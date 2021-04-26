@@ -42,7 +42,7 @@ export default {
             // this.$router.push("manualOrder");
 
           }
-        },1000)
+        },2000)
       }
       else if (
         typeof localStorage.getItem("user") == "undefined" ||
