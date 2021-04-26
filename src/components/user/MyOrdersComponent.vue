@@ -1,4 +1,9 @@
 <template>
+  <!-- <DataTable :value="orders.data">
+    <Column field="created_at" header="Order Date"></Column>
+    <Column field="status" header="Status"></Column>
+    <Column field="price" header="Amount"></Column>
+  </DataTable> -->
   <form class="form-inline" @submit.prevent="filterDate">
     <div class="form-group m-1">
       <label for="">From</label>
@@ -31,7 +36,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="order in orders" :key="order.id">
+      <tr v-for="order in orders['data']" :key="order.id">
         <td>{{ order.created_at }}</td>
         <td>{{ order.status }}</td>
         <td>{{ order.price }}</td>
@@ -43,21 +48,47 @@
       </tr>
     </tbody>
   </table>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li
+        v-for="page in orders['links']"
+        :key="page.label"
+        :class="[
+          'page-item',
+          page.active ? 'active' : '',
+          page.url == null ? 'disabled' : '',
+        ]"
+      >
+        <a
+          class="page-link"
+          @click.prevent="getMyOrders(page.url.split('=')[1])"
+        >
+          <span aria-hidden="true">
+            {{
+              page.label.split(" ")[1] == "Previous"
+                ? page.label.split(" ")[1]
+                : page.label.split(" ")[0]
+            }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>
 import services from "../services/user";
 export default {
   data: () => ({
-    orders: null,
+    orders: {},
     date: {
       from: null,
       to: null,
     },
   }),
   methods: {
-    async getMyOrders() {
-      const response = await services.getMyOrders();
+    async getMyOrders(page) {
+      const response = await services.getMyOrders(page);
       this.orders = response["data"]["data"];
     },
     async filterDate() {
@@ -74,5 +105,8 @@ export default {
   created() {
     this.getMyOrders();
   },
+ mounted(){
+	 
+ }
 };
 </script>
