@@ -20,9 +20,10 @@ import UserOrderComponent from "@/components/orders/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
 import CategoryComponet from "@/components/categories/categoryComponent";
 import GithubLoginComponet from "@/components/GithubLoginComponet";
+import GoogleLoginComponet from "@/components/GoogleLoginComponet";
 import ChecksComponent from "@/components/ChecksComponent";
 import $ from "jquery";
-import AdminUserContainer from "@/components/AdminUserContainer" 
+import AdminUserContainer from "@/components/AdminUserContainer";
 
 const routes = [
   {
@@ -43,11 +44,10 @@ const routes = [
   { path: "/register", name: "register", component: Container },
 
   { path: "/register", name: "register", component: RegisterComponent },
-  {
-    path: "/authorize/github/callback",
-    name: "loginGithub",
-    component: GithubLoginComponet,
-  },
+
+  { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
+  { path: "/authorize/google/callback", name: "loginGoogle", component: GoogleLoginComponet },
+
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
   { path: "/admin", name: "admin", component: AdminUserContainer },
@@ -100,8 +100,14 @@ router.afterEach((to, from) => {
 });
 
 const app = createApp(Container);
-// app.component("myOrders", DataTable);
-// app.component("myOrders", Column);
 
-app.use(VueAxios, axios); //
+app.use(VueAxios, axios); 
 app.use(router).mount("#app");
+
+
+
+// new Vue({
+//   router,
+//   store,
+//   render: h => h(Container)
+// }).$mount('#app')
