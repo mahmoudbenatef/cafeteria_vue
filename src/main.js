@@ -42,16 +42,12 @@ const routes = [
     },
   },
   { path: "/register", name: "register", component: Container },
-
   { path: "/register", name: "register", component: RegisterComponent },
-
   { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
   { path: "/authorize/google/callback", name: "loginGoogle", component: GoogleLoginComponet },
-
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
   { path: "/admin", name: "admin", component: AdminUserContainer },
-
   {
     path: "/product/:id",
     name: "editproduct",
