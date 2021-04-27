@@ -27,7 +27,7 @@ export default {
         console.log("im here");
       }
       else if ((this.$router.currentRoute["value"]["path"] == "/")){
-        console.log("a7a ya din omyyy ")
+      
 
         setTimeout(()=>{
           if (
