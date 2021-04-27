@@ -41,9 +41,13 @@
         <td>{{ order.status }}</td>
         <td>{{ order.price }}</td>
         <td>
-          <!-- <button class="btn btn-link" @click="updateProduct(product)">
-            {{ product.isAvailable ? "available" : "unavailable" }}
-          </button> -->
+          <button
+            v-if="order.status === 'running'"
+            class="btn btn-link"
+            @click="updateOrder(order)"
+          >
+            Cancel
+          </button>
         </td>
       </tr>
     </tbody>
@@ -92,21 +96,21 @@ export default {
       this.orders = response["data"]["data"];
     },
     async filterDate() {
-      let fullDate = "?";
-      Object.entries(this.date).forEach(([key, value]) => {
-        fullDate += `${key}=${value}&`;
-      });
+      const fullDate = `?from=${this.date.from}&to=${this.date.to}`;
       const response = await services
         .getMyFilteredOrders(fullDate)
         .then((res) => res.json());
       this.orders = response["data"];
     },
+    async updateOrder(order) {
+      order.status = "canceled";
+      const response = await services.updateOrder(order.id, order);
+      console.log(response);
+    },
   },
   created() {
     this.getMyOrders();
   },
- mounted(){
-	 
- }
+  mounted() {},
 };
 </script>

@@ -2,7 +2,6 @@ import hostUrl from "./hostUrl";
 import axios from "axios";
 const usersUrl = hostUrl + "user/";
 export default {
-  
   getMyOrders: (page = 1) => {
     const user = JSON.parse(localStorage.getItem("user"));
     return axios.get(usersUrl + user["id"] + "/orders?page=" + page, {
@@ -22,14 +21,21 @@ export default {
       },
     });
   },
-  getUsers: ()=>{
+  getUsers: () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    return axios.get(usersUrl,{
+    return axios.get(usersUrl, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user["token"],
       },
-
-    })
-  }
+    });
+  },
+  updateOrder: (id, order) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return axios.patch(hostUrl + `order/${id}`, order, {
+      headers: {
+        Authorization: "Bearer " + user["token"],
+      },
+    });
+  },
 };

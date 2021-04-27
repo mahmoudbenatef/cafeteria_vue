@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="category in categories">
+      <tr v-for="category in categories.data" :key="category.id">
         <td>{{ category.name }}</td>
         <td>
           <button class="btn btn-link" @click="deleteCategory(category.id)">
@@ -22,6 +22,32 @@
       </tr>
     </tbody>
   </table>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li
+        v-for="page in categories['links']"
+        :key="page.label"
+        :class="[
+          'page-item',
+          page.active ? 'active' : '',
+          page.url == null ? 'disabled' : '',
+        ]"
+      >
+        <a
+          class="page-link"
+          @click.prevent="getAllCategories(page.url.split('=')[1])"
+        >
+          <span aria-hidden="true">
+            {{
+              page.label.split(" ")[1] == "Previous"
+                ? page.label.split(" ")[1]
+                : page.label.split(" ")[0]
+            }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </template>
 <script>
 import services from "../services/category.js";
@@ -36,16 +62,17 @@ export default {
   },
   data() {
     return {
-      categories: [],
+      categories: {},
       category: "",
       addCategoryErrors: [],
     };
   },
   methods: {
-    getAllCategories() {
-      categoryServices.getAllCategories().then((json) => {
-        console.log(json.data);
-        this.categories = json.data;
+    getAllCategories(page) {
+      categoryServices.getAllCategories(page).then((json) => {
+        console.log(json.data.data);
+        this.categories = json.data.data;
+        console.log(this.categories.data);
       });
     },
     async addCategory(category) {
@@ -81,7 +108,7 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
+/* h3 {
   margin: 40px 0 0;
 }
 
@@ -97,5 +124,5 @@ li {
 
 a {
   color: #42b983;
-}
+} */
 </style>
