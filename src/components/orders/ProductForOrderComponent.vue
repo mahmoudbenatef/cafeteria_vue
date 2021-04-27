@@ -1,5 +1,5 @@
 <template>
-  <div class="card m-3"  style="width: 10rem;" v-for="product in products" @click="addProduct(product)">
+  <div class="card m-3"  style="width: 10rem;" v-for="product in products" :key="product.id" @click="addProduct(product)">
     <img :src='product.photo' style="height: 5rem;" class="card-img-top" alt="">
 <div class="row">
       <span class="col">{{product.name}}</span>
@@ -21,8 +21,6 @@ export default {
   },
   methods:{
     addProduct(product){
-      console.log("adding product in child comp")
-      console.log(product)
       this.$emit("addProduct",product)
     },
   },
@@ -43,10 +41,6 @@ export default {
     productServices.listAllProducts()
         .then((res) => {
           this.products= res.data.data
-          // console.log(this.products,"productz")
-        })
-        .catch((error) => {
-          console.error(error)
         })
   }
 

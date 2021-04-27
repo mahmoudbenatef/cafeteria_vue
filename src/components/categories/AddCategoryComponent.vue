@@ -41,7 +41,6 @@ export default {
   },
   methods:{
     addCategory(categoy){
-      console.log("emmeting event")
       this.$emit("addCategory",categoy)
     }
   }

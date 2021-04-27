@@ -103,9 +103,7 @@ export default {
     async login() {
       try {
         const res = await userAuth.login(JSON.stringify(this.user));
-        console.log(res.data["user"]);
         localStorage.setItem("user", JSON.stringify(res.data["user"]));
-        console.log("msa2ak laziz");
         this.$router.push("/home");
       } catch (error) {
         if (error.response) {
@@ -113,9 +111,6 @@ export default {
 
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
         }
       }
     },
@@ -124,7 +119,6 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.url) {
-            console.log(data.url);
             window.location.href = data.url;
           }
         });
@@ -134,7 +128,6 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.url) {
-            console.log(data.url);
             window.location.href = data.url;
           }
         });
@@ -144,7 +137,6 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.url) {
-            console.log(data.url);
             window.location.href = data.url;
           }
         });
@@ -169,7 +161,5 @@ display: flex;
   justify-content: center;
   background: #faebd7;
   border-radius: 30px;
-}
-.form{
 }
 </style>

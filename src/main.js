@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-import App from "./App.vue";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createWebHistory, createRouter } from "vue-router";
@@ -7,7 +6,6 @@ import RegisterComponent from "@/components/Authentication/RegisterComponent";
 import Container from "@/components/Container";
 import Handler from "@/components/Handler";
 import HelloWorld from "@/components/HelloWorld";
-import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import LoginComponent from "@/components/Authentication/LoginComponent";
@@ -22,7 +20,6 @@ import CategoryComponet from "@/components/categories/categoryComponent";
 import GithubLoginComponet from "@/components/GithubLoginComponet";
 import GoogleLoginComponet from "@/components/GoogleLoginComponet";
 import ChecksComponent from "@/components/ChecksComponent";
-import $ from "jquery";
 import AdminUserContainer from "@/components/AdminUserContainer";
 
 const routes = [
@@ -31,12 +28,9 @@ const routes = [
     name: "home",
     component: HelloWorld,
     beforeEnter: (to, from, next) => {
-      const user = localStorage.getItem("user");
-      console.log("hala wallah");
-      console.log(user);
+      const user = localStorage.getItem("user")
       if (user)
         if (JSON.parse(user)["isAdmin"] == 1) {
-          console.log("true awi");
           next();
         } else next("/userOrder");
     },

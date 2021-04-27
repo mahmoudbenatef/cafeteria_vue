@@ -36,7 +36,6 @@ export default {
   },
   methods:{
     editRoom(room){
-      console.log("emmeting event")
       this.$emit("updateRoom",room)
     }
   }

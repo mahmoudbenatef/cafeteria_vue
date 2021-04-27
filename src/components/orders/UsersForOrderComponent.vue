@@ -2,7 +2,7 @@
     <label for="" class="form-label col-md-3">Users</label>
     <select v-model="user_id" @change="selectUser(user_id)" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
       <option selected v-bind:value="''">Open this select menu</option>
-      <option v-for="user in users"   v-bind:value="user.id">{{ user.name }}</option>
+      <option v-for="user in users" :key="user.id"   v-bind:value="user.id">{{ user.name }}</option>
     </select>
 
 </template>
@@ -23,9 +23,7 @@ export default {
       this.$emit("selectUser",user_id)
     },
   getAccessToken (){
-    console.log("getting token")
     this.accessToken = localStorage.getItem("user")["token"]
-    console.log(this.accessToken = JSON.parse(localStorage.getItem("user"))["token"])
   }
   },
   props: {

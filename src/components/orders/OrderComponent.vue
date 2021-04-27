@@ -5,7 +5,7 @@
       {{ errors["products"][0] }}
     </p>
     <tbody v-if="products.length > 0">
-      <tr v-for="product in products">
+      <tr v-for="product in products" :key="product.id">
         <td>{{ product.name }}</td>
         <td>
           <input type="number" disabled v-bind:value="product.quantity" />
@@ -30,7 +30,7 @@
       aria-label=".form-select-lg example"
     >
       <option selected v-bind:value="''">Open this select menu</option>
-      <option v-for="room in rooms" v-bind:value="room.id">
+      <option v-for="room in rooms" :key="room.id" v-bind:value="room.id">
         {{ room.number }}
       </option>
     </select>
@@ -89,27 +89,20 @@ export default {
     },
     confirmOrder() {
       this.errors = [];
-      console.log("hello world ");
       let formData = new FormData();
-      console.log(JSON.stringify(this.products));
       formData.append("products", JSON.stringify(this.products));
       formData.append("room", this.room);
       formData.append("notes", this.notes);
       formData.append("price", this.totalPrice);
       formData.append("user_id", this.user_id);
-      console.log(formData);
 
       Order.createOrder(formData)
         .then((response) => {
-          console.log(response);
           if (response.data.status == "done") {
             this.$router.push("login");
-          } else {
-            console.log("howwwwwwwwwwww");
-          }
+          } 
         })
         .catch((err) => {
-          console.log(err.response.data.message);
           this.errors = err.response.data.message;
         });
     },

@@ -24,7 +24,7 @@ export default {
   methods: {
     checkAuth() {
       if((this.$router.currentRoute["value"]["path"] == "/authorize/github/callback")){
-        console.log("im here");
+
       }
       else if ((this.$router.currentRoute["value"]["path"] == "/")){
       
@@ -75,7 +75,6 @@ export default {
   },
   computed: {
     currentRouteName() {
-      console.log(this.$route.name);
       return this.$route.name;
     },
   },

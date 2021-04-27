@@ -83,36 +83,27 @@ export default {
     async getAllRooms(page) {
       const res = await services.displayAllRooms(page);
       const data = await res.json();
-      console.log(data);
       this.rooms = data["data"];
-      console.log(this.rooms);
     },
     async deleteRoom(id) {
       const res = await services.getAllRooms();
       const data = await res.json();
-      console.log(data);
       this.rooms = data["data"];
-      console.log(this.rooms);
     },
     async addRoom(room) {
       this.addRoomErrors = [];
       const res = services
         .createRoom(room)
         .then((response) => {
-          console.log(response);
           if (response.data.status == "success") {
             this.getAllRooms();
-          } else {
-            console.log("howwwwwwwwwwww");
-          }
+          } 
         })
         .catch((err) => {
-          console.log(err.response.data.message);
           this.addRoomErrors = err.response.data.message;
         });
     },
     editRoom(room) {
-      console.log("here");
       this.roomToBeEdited = room;
       this.editing = true;
     },
@@ -121,7 +112,6 @@ export default {
         .updateRoom(room.id, room.number)
         .then((response) => {
           if (response.data.status == "success") {
-            console.log("ergaaaaaaaaaaaaaaaaa3");
             this.getAllRooms();
             this.editing = false;
             this.roomToBeEdited = {};

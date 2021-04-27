@@ -20,7 +20,6 @@ export default {
         //.then((response) => response.json())
       let data=await json.json();
       // .then((data) => {
-            console.log(data);
         
         //   window.location.href=data.url;
            if (data.status === "Error") {
@@ -31,9 +30,6 @@ export default {
             window.location.href="http://localhost:8080/home";
           }
          
-          
-         
-        // });
         
         
     },
@@ -42,9 +38,6 @@ export default {
     
   },
    created(){
-          // this.githubLogin();
-          // console.log("test");
-          // console.log(this.$route.query.code)
               
           },
 };

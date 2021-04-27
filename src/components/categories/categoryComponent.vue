@@ -5,24 +5,31 @@
     @addCategory="addCategory"
   ></AddCategoryComponent>
   <div class="container">
-  <table class="table table-striped table-active table-bordered mb-5">
-    <thead >
-      <tr>
-        <th>category name</th>
-        <th colspan="1">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="category in categories.data" :key="category.id" class="bg-dark text-light">
-        <td >{{ category.name }}</td>
-        <td>
-          <button class="btn btn-link text-light" @click="deleteCategory(category.id)">
-            delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table table-striped table-active table-bordered mb-5">
+      <thead>
+        <tr>
+          <th>category name</th>
+          <th colspan="1">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="category in categories.data"
+          :key="category.id"
+          class="bg-dark text-light"
+        >
+          <td>{{ category.name }}</td>
+          <td>
+            <button
+              class="btn btn-link text-light"
+              @click="deleteCategory(category.id)"
+            >
+              delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
@@ -54,7 +61,6 @@
 <script>
 import services from "../services/category.js";
 import AddCategoryComponent from "@/components/categories/AddCategoryComponent";
-// import EditRoomComponent from "@/components/rooms/EditRoomComponent";
 import categoryServices from "@/components/services/category";
 
 export default {
@@ -72,9 +78,7 @@ export default {
   methods: {
     getAllCategories(page) {
       categoryServices.getAllCategories(page).then((json) => {
-        console.log(json.data.data);
         this.categories = json.data.data;
-        console.log(this.categories.data);
       });
     },
     async addCategory(category) {
@@ -84,8 +88,6 @@ export default {
         .then((json) => {
           if (json.data.status == "success") {
             this.getAllCategories();
-          } else {
-            console.log("howwwwwwwwwwww");
           }
         })
         .catch((err) => {
@@ -127,5 +129,4 @@ li {
 a {
   color: #42b983;
 } */
-
 </style>
