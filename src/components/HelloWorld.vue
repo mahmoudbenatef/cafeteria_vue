@@ -1,10 +1,5 @@
 <template>
-
-<h1>Home</h1>
-
 <AdminUserContainer></AdminUserContainer>
-
-
 </template>
 
 <script>

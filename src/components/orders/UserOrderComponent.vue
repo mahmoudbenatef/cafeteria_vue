@@ -1,7 +1,7 @@
 <template>
 
-<!--<h1>Hello Manual Order</h1>-->
-<!--  <div class="container">-->
+<h1>Create New  Order</h1>
+  <div class="container col-md-10 p-5 m-5">
     <div class="row">
     <div class="col-md-6">
       <OrderComponent v-bind:products="products" v-bind:user_id="user_id"></OrderComponent>
@@ -14,7 +14,7 @@
       </div>
     </div>
     </div>
-<!--  </div>-->
+  </div>
 </template>
 
 <script>
