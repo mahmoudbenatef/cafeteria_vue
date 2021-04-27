@@ -1,8 +1,6 @@
 <template>
 
 <AdminUserContainer></AdminUserContainer>
-
-
 </template>
 
 <script>

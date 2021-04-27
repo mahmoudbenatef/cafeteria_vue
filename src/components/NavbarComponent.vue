@@ -3,7 +3,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light " v-if="user===1">
     <div class="container-fluid">
       <div class="row justify-content-between w-100">
-        <div class="d-flex left">
+        <div style="flex-basis: 60%" class="d-flex left">
       <div class="collapse navbar-collapse" id="">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -19,78 +19,60 @@
           <li class="nav-item">
             <router-link class=" nav-link active" aria-current="page" to="/products">Products</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class=" nav-link active" aria-current="page" to="/checks">Checks</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class=" nav-link active" aria-current="page" to="/orders">Orders</router-link>
+          </li>
         </ul>
       </div>
     </div>
-        <div class="d-flex ">
+
+        <div style="align-self: flex-end" class="d-flex ">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Admin</a>
+              <a class="nav-link active" aria-current="page" href="#">          {{photo['name']}} (Admin)</a>
             </li>
+            <img class="photo" :src="photo['photo'] " :alt="photo['name']" >
+            <button style= " border-radius:5px; margin-left: 10px" class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
           </ul>
         </div>
-        <div class="d-flex ">
-    <img src="" class="photo" :src="photo">
-        </div>
-        <div class="d-flex ">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <button class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
-            </li>
-          </ul>
-        </div>
+
+
+
       </div>
     </div>
   </nav>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="user===0">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <div class="d-flex ">
+      <div class="row justify-content-between w-100">
+        <div style="flex-basis: 60%" class="d-flex left">
+          <div class="collapse navbar-collapse" >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <router-link class=" nav-link active" aria-current="page" to="/manualOrder"> Order</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class=" nav-link active" aria-current="page" to="/my-orders">My orders</router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div style="align-self: flex-end" class="d-flex ">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <button class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
+              <a class="nav-link active" aria-current="page" href="#">{{photo['name']}}</a>
             </li>
+            <img class="photo" :src="photo['photo'] " :alt="photo['name']" >
+            <button style= " border-radius:5px; margin-left: 10px" class="nav-link active" aria-current="page" @click="Logout" >Logout</button>
           </ul>
         </div>
-          <li class="nav-item">
-            <router-link class="navbar-brand" to="/userOrder">Order</router-link>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>
-
-
 </template>
-
 <script>
 export default {
   name: 'HelloWorld',
@@ -106,8 +88,12 @@ export default {
   },
   data(){
     return{
-      photo: JSON.stringify(localStorage.getItem("user"))["photo"]
+      photo: String
     }
+  },
+  created(){
+    if (localStorage.getItem("user"))
+    console.log(this.photo=JSON.parse(localStorage.getItem("user")))
   }
 }
 </script>
@@ -134,6 +120,6 @@ a {
 .photo{
   width: 50px;
   height: 50px;
-  border-radius: 35%;
+  border-radius: 50%;
 }
 </style>
