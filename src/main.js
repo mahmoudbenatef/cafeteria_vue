@@ -20,6 +20,9 @@ import UserOrderComponent from "@/components/orders/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
 import CategoryComponet from "@/components/categories/categoryComponent";
 import GithubLoginComponet from "@/components/GithubLoginComponet";
+import AdminUserContainer from "@/components/AdminUserContainer" 
+
+
 
 const routes = [
   { path: "/home", name: "home", component: HelloWorld,
@@ -43,6 +46,8 @@ const routes = [
   { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
+  { path: "/admin", name: "admin", component: AdminUserContainer },
+
   {
     path: "/product/:id",
     name: "editproduct",
