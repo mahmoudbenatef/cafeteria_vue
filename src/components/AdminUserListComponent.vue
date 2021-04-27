@@ -77,10 +77,8 @@ export default {
 
       this.$emit("addUserClicked") ; 
     } , 
-    // secondMethod(user){
+    
 
-    //   alert(user.id) ;
-    // } , 
     raiseedituser(user){
       alert(user.id) ;
       this.$emit("editUserClicked", user) ; 
@@ -91,33 +89,14 @@ export default {
       deleteUser(id) {
         
 
-    alert(id)
+          alert(id)
 
-    //  axios.post('http://127.0.0.1:8000/api/user/'+id,headers: {
-    //           'Accept':"application/json",
-    //           'Authorization': `Bearer ${this.accessToken}`,
-    //         }, {_method : "delete"})
-     
-
-
-      // axios.delete('http://127.0.0.1:8000/api/user' ,  {params: {'id': id}} )   
-// console.log("access" , this.accessToken)
-   axios.delete(`http://127.0.0.1:8000/api/user/${id}`,
-    {
-  // headers: {
-  //             'Accept':"application/json",
-  //             'Authorization': `Bearer ${this.accessToken}`,
-  //           }
-  headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: `Bearer ${this.accessToken}`,
-        }
-            },
-            {_method : "delete"}
-  )
-  .then(response=>{
+  axios.delete(`http://127.0.0.1:8000/api/user/${id}`, {
+      headers: {
+        
+        Authorization: `Bearer ${this.accessToken}`,      },
+    })
+     .then(response=>{
               let data = response.data
               console.log(data)
               alert("deleted")
@@ -126,8 +105,18 @@ export default {
               console.log("error in deletion");
             }
             else {
-              // this.$router.push('login')
+              this.$router.push('admin')
               console.log("sucess routering ")
+                 axios 
+        .get('http://127.0.0.1:8000/api/user')
+        .then(response => console.log("hello i am alert 21  "))
+
+    fetch('http://127.0.0.1:8000/api/user')
+        .then(response => response.json())
+        .then(json => {this.users=json.data
+          console.log(this.users)
+        })
+
             }
 
             })
@@ -159,7 +148,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 span {
     font-family: 'Times New Roman', Times, serif;
