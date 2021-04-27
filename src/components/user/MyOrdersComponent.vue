@@ -1,9 +1,4 @@
 <template>
-  <!-- <DataTable :value="orders.data">
-    <Column field="created_at" header="Order Date"></Column>
-    <Column field="status" header="Status"></Column>
-    <Column field="price" header="Amount"></Column>
-  </DataTable> -->
   <form class="form-inline" @submit.prevent="filterDate">
     <div class="form-group m-1">
       <label for="">From</label>
@@ -26,32 +21,56 @@
     <input type="submit" class="btn btn-success mx-1" />
     <input type="reset" class="btn btn-info mx-1" @click="getMyOrders" />
   </form>
-  <table class="table table-borderd">
-    <thead>
-      <tr>
-        <th>Order Date</th>
-        <th>Status</th>
-        <th>Amount</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="order in orders['data']" :key="order.id">
-        <td>{{ order.created_at }}</td>
-        <td>{{ order.status }}</td>
-        <td>{{ order.price }}</td>
-        <td>
-          <button
-            v-if="order.status === 'running'"
-            class="btn btn-link"
-            @click="updateOrder(order)"
-          >
-            Cancel
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="border mb-3" v-for="order in orders['data']" :key="order.id">
+    <table class="table table-borderd">
+      <thead>
+        <tr>
+          <th>Order Date</th>
+          <th>Status</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ order.created_at }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.price }}</td>
+          <td>
+            <button @click="toggleClass($event)" class="btn btn-success more">
+              +
+            </button>
+            <button
+              v-if="order.status === 'running'"
+              class="btn btn-link"
+              @click="updateOrder(order)"
+            >
+              Cancel
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="display: none" class="row">
+      <div
+        class="col text-center"
+        v-for="product in order.products"
+        :key="product.id"
+      >
+        <img
+          :src="product.photo"
+          alt="product image"
+          class="img-fluid"
+          style="height: 100px"
+        />
+        <h3>{{ product.name }}</h3>
+        <h4>{{ product.quantity }}</h4>
+      </div>
+    </div>
+    <div class="d-flex flex-row-reverse mr-5">
+      <p>Total: {{ order.price }}</p>
+    </div>
+  </div>
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li
@@ -81,6 +100,7 @@
 </template>
 
 <script>
+var $ = require("jquery");
 import services from "../services/user";
 export default {
   data: () => ({
@@ -106,6 +126,18 @@ export default {
       order.status = "canceled";
       const response = await services.updateOrder(order.id, order);
       console.log(response);
+    },
+    toggleClass(event) {
+      $(event.target)
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .siblings("div")
+        .fadeToggle();
+      $(event.target).toggleClass("btn-success btn-danger more less");
+      $(".more").text("+");
+      $(".less").text("-");
     },
   },
   created() {
