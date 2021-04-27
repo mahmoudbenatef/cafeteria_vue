@@ -40,10 +40,10 @@ export default {
 
 
 
-    productServices.getProducts()
+    productServices.listAllProducts()
         .then((res) => {
           this.products= res.data.data
-          console.log(this.products)
+          // console.log(this.products,"productz")
         })
         .catch((error) => {
           console.error(error)
