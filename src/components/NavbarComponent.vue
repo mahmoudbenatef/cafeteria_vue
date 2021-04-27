@@ -30,7 +30,7 @@
           </ul>
         </div>
         <div class="d-flex ">
-    <img src="" class="photo">
+    <img src="" class="photo" :src="photo">
         </div>
         <div class="d-flex ">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -95,12 +95,18 @@
 export default {
   name: 'HelloWorld',
   props: {
-    user: String
+    user: String,
   },methods:{
     Logout(){
       localStorage.removeItem("user")
       this.$router.push("/login");
 
+    },
+
+  },
+  data(){
+    return{
+      photo: JSON.stringify(localStorage.getItem("user"))["photo"]
     }
   }
 }
