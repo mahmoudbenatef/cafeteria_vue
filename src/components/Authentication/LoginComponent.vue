@@ -1,5 +1,11 @@
 <template @submit.prevent>
   <!--  <form class="mt-5">-->
+  <div class="container ">
+    <div class="row content">
+
+<div class="login  col-md-6 align-self-center ">
+<div class="form">
+
   <div class="mb-3 row">
     <label for="exampleInputEmail1" class="form-label col-md-3"
       >Email address</label
@@ -48,13 +54,33 @@
       </p>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary m-3" @click="login">
-    Login
-  </button>
-  <a class="btn btn-primary m-3" @click="githubLogin">login with github</a>
-  <a class="btn btn-primary m-3" @click="googleLogin">login with google</a>
-  <a class="btn btn-primary m-3" @click="facebookLogin">login with facebook</a>
-  <router-link to="register" class="btn btn-primary">Register</router-link>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-3">
+          <button type="submit" class="btn btn-dark  btn-lg button " @click="login">Login  </button>
+        </div>
+
+        <div class="col-md-3">
+          <router-link to="register" class="btn btn-dark  btn-lg button ">Register</router-link>
+        </div>
+        <div class="col-md-3">
+          <a class="btn btn-dark  btn-lg button " @click="githubLogin"> github</a>
+
+        </div>
+        <div class="col-md-3">
+          <a class="btn btn-dark  btn-lg button " @click="googleLogin"> google</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
 
   <!--  </form>-->
 </template>
@@ -128,4 +154,22 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.content{
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+.login{
+display: flex;
+  flex-direction: column;
+  /*justify-items: spa;*/
+  justify-content: center;
+  background: #faebd7;
+  border-radius: 30px;
+}
+.form{
+}
+</style>

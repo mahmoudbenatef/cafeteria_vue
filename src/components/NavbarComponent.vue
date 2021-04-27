@@ -3,27 +3,23 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light " v-if="user===1">
     <div class="container-fluid">
       <div class="row justify-content-between w-100">
-        <div class="d-flex">
-          <router-link class="navbar-brand" to="/manualOrder">Manual Order</router-link>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <div class="d-flex left">
       <div class="collapse navbar-collapse" id="">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link class=" nav-link active" aria-current="page" to="/manualOrder">Manual Order</router-link>
+          </li>
           <li class="nav-item">
             <router-link class=" nav-link active" aria-current="page" to="/room">Rooms</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <router-link class=" nav-link active" aria-current="page" to="/home">Users</router-link>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <router-link class=" nav-link active" aria-current="page" to="/products">Products</router-link>
           </li>
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
         <div class="d-flex ">
@@ -32,6 +28,9 @@
               <a class="nav-link active" aria-current="page" href="#">Admin</a>
             </li>
           </ul>
+        </div>
+        <div class="d-flex ">
+    <img src="" class="photo">
         </div>
         <div class="d-flex ">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -43,6 +42,7 @@
       </div>
     </div>
   </nav>
+
   <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="user===0">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar</a>
@@ -121,5 +121,13 @@ li {
 }
 a {
   color: #42b983;
+}
+.left{
+  flex-basis: 60%;
+}
+.photo{
+  width: 50px;
+  height: 50px;
+  border-radius: 35%;
 }
 </style>
