@@ -1,23 +1,58 @@
 <template>
-  <AddRoomComponent v-if="!editing" v-bind:errors="addRoomErrors" v-bind:room="room" @addRoom="addRoom"></AddRoomComponent>
-  <EditRoomComponent v-if="editing" v-bind:errors="addRoomErrors" v-bind:room="roomToBeEdited" @updateRoom="updateRoom"></EditRoomComponent>
+  <AddRoomComponent
+    v-if="!editing"
+    v-bind:errors="addRoomErrors"
+    v-bind:room="room"
+    @addRoom="addRoom"
+  ></AddRoomComponent>
+  <EditRoomComponent
+    v-if="editing"
+    v-bind:errors="addRoomErrors"
+    v-bind:room="roomToBeEdited"
+    @updateRoom="updateRoom"
+  ></EditRoomComponent>
   <table class="table table-borderd">
     <thead>
-    <tr>
-      <th>room number</th>
-      <th colspan="1">Actions</th>
-    </tr>
+      <tr>
+        <th>room number</th>
+        <th colspan="1">Actions</th>
+      </tr>
     </thead>
     <tbody>
-    <tr v-for="room in rooms">
-      <td> {{ room.number }}</td>
-      <td>
+      <tr v-for="room in rooms.data" :key="room.id">
+        <td>{{ room.number }}</td>
+        <td>
           <button @click="editRoom(room)" class="btn btn-link">edit</button>
-      </td>
-
-    </tr>
+        </td>
+      </tr>
     </tbody>
   </table>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li
+        v-for="page in rooms['links']"
+        :key="page.label"
+        :class="[
+          'page-item',
+          page.active ? 'active' : '',
+          page.url == null ? 'disabled' : '',
+        ]"
+      >
+        <a
+          class="page-link"
+          @click.prevent="getAllRooms(page.url.split('=')[1])"
+        >
+          <span aria-hidden="true">
+            {{
+              page.label.split(" ")[1] == "Previous"
+                ? page.label.split(" ")[1]
+                : page.label.split(" ")[0]
+            }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </template>
 <script>
 import services from "../services/rooms.js";
@@ -26,72 +61,85 @@ import EditRoomComponent from "@/components/rooms/EditRoomComponent";
 import roomServices from "@/components/services/rooms";
 
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
+    msg: String,
   },
   data() {
     return {
-      rooms: [],
-      room:"",
+      rooms: {},
+      room: "",
       addRoomErrors: [],
-      editing:false,
-      roomToBeEdited:{}
-    }
+      editing: false,
+      roomToBeEdited: {},
+    };
   },
   methods: {
-     getAllRooms() {
-      roomServices.getAllRooms()
-          .then((json) => {
-            this.rooms = json.data.data;
-          });
+    async getAllRooms(page) {
+      const res = await services.displayAllRooms(page);
+      const data = await res.json();
+      console.log(data);
+      this.rooms = data["data"];
+      console.log(this.rooms);
+    },
+    async deleteRoom(id) {
+      const res = await services.getAllRooms();
+      const data = await res.json();
+      console.log(data);
+      this.rooms = data["data"];
+      console.log(this.rooms);
     },
     async addRoom(room) {
-      this.addRoomErrors=[]
-        services.createRoom(room)
-          .then((json) => {
-            if (json.data.status == "success") {
-              this.getAllRooms()
-                      } else {
-                        console.log("howwwwwwwwwwww");
-                      }
-          })    .catch( (err) =>
-        {
-          this.addRoomErrors=err.response.data.message})
+      this.addRoomErrors = [];
+      const res = services
+        .createRoom(room)
+        .then((response) => {
+          console.log(response);
+          if (response.data.status == "success") {
+            this.getAllRooms();
+          } else {
+            console.log("howwwwwwwwwwww");
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+          this.addRoomErrors = err.response.data.message;
+        });
     },
-    editRoom(room){
-       this.addRoomErrors=[]
-      console.log("here")
-      this.roomToBeEdited = room
-      this.editing= true
+    editRoom(room) {
+      console.log("here");
+      this.roomToBeEdited = room;
+      this.editing = true;
     },
-    updateRoom(room){
-      services.updateRoom(room.id,room.number).then((response) =>{
-        if (response.data.status == "success") {
-          console.log("ergaaaaaaaaaaaaaaaaa3")
-          this.getAllRooms()
-          this.editing=false
-         this.roomToBeEdited={}
-         this.addRoomErrors=[]
-        }
-      })
-          .catch( (err) =>
-      {
-      this.addRoomErrors=err.response.data.message})
-    }
+    updateRoom(room) {
+      services
+        .updateRoom(room.id, room.number)
+        .then((response) => {
+          if (response.data.status == "success") {
+            console.log("ergaaaaaaaaaaaaaaaaa3");
+            this.getAllRooms();
+            this.editing = false;
+            this.roomToBeEdited = {};
+            this.addRoomErrors = [];
+          }
+        })
+        .catch((err) => {
+          this.addRoomErrors = err.response.data.message;
+        });
+    },
   },
   created() {
-    this.getAllRooms()
+    this.getAllRooms();
   },
   components: {
     EditRoomComponent,
-    AddRoomComponent
-  }
-}
+    AddRoomComponent,
+  },
+};
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
+/* h3 {
   margin: 40px 0 0;
 }
 
@@ -107,5 +155,5 @@ li {
 
 a {
   color: #42b983;
-}
+} */
 </style>

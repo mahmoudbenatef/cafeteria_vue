@@ -12,21 +12,40 @@ export default {
       },
     });
   },
-  createRoom: (room) => {
-    return axios.post(roomsUrl, {number:room}, {
+  displayAllRooms: (page = 1) => {
+    return fetch(hostUrl + "rooms?page=" + page, {
+      method: "GET",
       headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
         Authorization: "Bearer " + token["token"],
-        Accept: "application/json"
       },
     });
+  },
+  createRoom: (room) => {
+    return axios.post(
+      roomsUrl,
+      { number: room },
+      {
+        headers: {
+          Authorization: "Bearer " + token["token"],
+          Accept: "application/json",
+        },
+      }
+    );
   },
 
   updateRoom: (id, number) => {
-    console.log(number)
-    return axios.patch(roomsUrl + `/${id}`,{number:number}, {
-      headers: {
-        Authorization: "Bearer " + token["token"],
-      },
-    });
+    console.log(number);
+    return axios.patch(
+      roomsUrl + `/${id}`,
+      { number: number },
+      {
+        headers: {
+          Authorization: "Bearer " + token["token"],
+        },
+      }
+    );
   },
-}
+};
