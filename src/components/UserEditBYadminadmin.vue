@@ -47,7 +47,7 @@
     <label for="exampleInputEmail1" class="form-label col-md-3">Room</label>
     <select v-model="myuser.room_id" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
       <option selected>Open this select menu</option>
-      <option v-for="room in rooms"   v-bind:value="room.id">{{ room.number }}</option>
+      <option v-for="room in rooms"   v-bind:value="room.id"  :key="room.id" >{{ room.number }}</option>
     </select>
   </div>
   <div class="row">
@@ -110,9 +110,7 @@ export default {
     },
     validateForm() {
       this.errors = {};
-      //   let isValid = this.product.category_id != "null" ;
-      // //   || this.product.price != "";
-      //   console.log(isValid);
+   
       for (const key in this.product) {
         this.myuser[key] == null && (this.errors[key] = `${key} is required`);
       }
