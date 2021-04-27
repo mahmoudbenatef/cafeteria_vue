@@ -19,8 +19,10 @@
                     <td>id</td>
                     <td>name</td>
                     <td>email</td>
+                    <td>image</td>
                     <td>ext</td>
                      <td>action</td> 
+
 
 
                 </thead>
@@ -29,9 +31,10 @@
                         <td v-if="one.isAdmin!=1" >{{one.id}}</td>
                           <td v-if="one.isAdmin!=1" >{{one.name}}</td>
                             <td v-if="one.isAdmin!=1" >{{one.email}}</td>
+                              <td  v-if="one.isAdmin!=1"><img :src="one.photo" alt=""  style="width:150px ; height:100px" ></td>                                            
                             <td  v-if="one.isAdmin!=1" >{{one.ext}}</td>
-                             <td>
-                               <button v-if="one.isAdmin!=1" @click="raiseedituser" class="edit_delete btn  btn-secondary">edit</button>
+                             <td  v-if="one.isAdmin!=1">
+                               <button v-if="one.isAdmin!=1" @click="raiseedituser(one)" class="edit_delete btn  btn-secondary">edit</button>
                                 <button v-if="one.isAdmin!=1"  class="btn btn-danger" @click="deleteUser(one.id)">delete </button>
                              </td>
                             
@@ -74,10 +77,17 @@ export default {
 
       this.$emit("addUserClicked") ; 
     } , 
-    raiseedituser(){
+    // secondMethod(user){
 
-      this.$emit("editUserClicked") ; 
+    //   alert(user.id) ;
+    // } , 
+    raiseedituser(user){
+      alert(user.id) ;
+      this.$emit("editUserClicked", user) ; 
     } , 
+    
+
+
       deleteUser(id) {
         
 
@@ -130,8 +140,7 @@ export default {
       console.log("before token", xx)
    console.log("after parsing",JSON.parse(xx)['token']) 
     this.accessToken  =   JSON.parse(xx)['token'] 
-        //  yy = JSON.parse(xx["token"]) ; 
-            // console.log("after token", yy)  
+   
 
     }
   },
