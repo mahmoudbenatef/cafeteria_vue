@@ -4,24 +4,26 @@
     v-bind:category="category"
     @addCategory="addCategory"
   ></AddCategoryComponent>
-  <table class="table table-borderd">
-    <thead>
+  <div class="container">
+  <table class="table table-striped table-active table-bordered mb-5">
+    <thead >
       <tr>
         <th>category name</th>
         <th colspan="1">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="category in categories.data" :key="category.id">
-        <td>{{ category.name }}</td>
+      <tr v-for="category in categories.data" :key="category.id" class="bg-dark text-light">
+        <td >{{ category.name }}</td>
         <td>
-          <button class="btn btn-link" @click="deleteCategory(category.id)">
+          <button class="btn btn-link text-light" @click="deleteCategory(category.id)">
             delete
           </button>
         </td>
       </tr>
     </tbody>
   </table>
+  </div>
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li
@@ -125,4 +127,5 @@ li {
 a {
   color: #42b983;
 } */
+
 </style>
