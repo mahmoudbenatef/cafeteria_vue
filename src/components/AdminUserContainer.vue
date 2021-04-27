@@ -7,7 +7,6 @@
  import AdminListUsers from "./AdminUserListComponent" 
   import Register from "./AddUserByAdmin" 
       import UpdateUser from "./UserEditByAdmin" 
-        //   import UpdateUser from "./UserEditBYadminadmin" 
 
 
 
@@ -29,7 +28,6 @@ export default {
             this.target = "Register"
         },
         mytarget2(data){
-                console.log("check user",data)
            this.theUser = data 
             this.target = "UpdateUser"
         } ,

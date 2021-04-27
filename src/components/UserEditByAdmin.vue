@@ -109,7 +109,6 @@
     />
   </div>
 
-  <button type="" class="btn btn-primary">{{ myuser }}</button>
   <button type="submit" class="btn btn-primary" @click="updateData">
     update
   </button>
@@ -143,74 +142,61 @@ export default {
   props: ["myuser"],
 
   methods: {
-    testme() {
-      console.log("edit user ", this.myuser);
-    },
+    // testme() {
+    //   console.log("edit user ", this.myuser);
+    // },
     onFileChange(e) {
       this.user.photo = e.target.files[0];
       this.hasImage = true;
-      console.log("my image", this.photo);
     },
 
     updateData() {
-      //   let response;
       let formData;
       if (this.hasImage) {
         formData = new FormData();
-        // formData.append("photo", this.photo);
-        console.log("inside if");
         for (const [key, value] of Object.entries(this.user)) {
           formData.append(key, value);
         }
       } else {
         formData = this.user;
       }
-      console.log(this.user);
 
       axios
         .post(
           `http://127.0.0.1:8000/api/user/${this.myuser.id}?_method=patch`,
-          formData
+          formData , {
+      headers: {
+        
+        Authorization: `Bearer ${this.accessToken}`,      },
+    }
         )
         .then((response) => {
-          console.log(response, "this is axios new way ");
-          //   this.$router.push("admin");
           this.$emit("submitAddUserClicked", "AdminListUsers");
         })
         .catch(function (error) {
           console.log(error);
-          console.log("please check your data ");
         });
-      //=======================
     },
-    // async updateProduct() {
-    //   if (this.validateForm()) {
-    //     let response;
-    //     if (this.hasImage) {
-    //       let formData = new FormData();
-    //       for (const [key, value] of Object.entries(this.product)) {
-    //         formData.append(key, value);
-    //       }
-    //       response = await services.updateProudct(this.product.id, formData);
-    //     } else {
-    //       response = await services.updateProudct(
-    //         this.product.id,
-    //         this.product
-    //       );
-    //     }
-    //     response["data"]["status"] == "success"
-    //       ? this.$router.push("/products")
-    //       : (this.errors = response["data"]["message"]);
-    //   }
-    // },
+     getAccessToken (){
+      let xx = localStorage.getItem("user") ; 
+    this.accessToken  =   JSON.parse(xx)['token'] 
+   
+
+    }
+    
   },
   created() {
+          this.getAccessToken() ;
+
     this.user = this.myuser;
-    fetch("http://127.0.0.1:8000/api/room")
+    fetch("http://127.0.0.1:8000/api/room" ,{
+      headers: {
+        
+        Authorization: `Bearer ${this.accessToken}`,      },
+    } )
       .then((response) => response.json())
       .then((json) => {
         this.rooms = json.data;
-        console.log(this.rooms);
       });
   },
 };
