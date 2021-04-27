@@ -1,4 +1,9 @@
 <template>
+  <div class="container  room-container m-5 p-5">
+<div>
+<div class="row">
+  <div class="col-md-9">
+
   <AddRoomComponent
     v-if="!editing"
     v-bind:errors="addRoomErrors"
@@ -11,7 +16,11 @@
     v-bind:room="roomToBeEdited"
     @updateRoom="updateRoom"
   ></EditRoomComponent>
-  <table class="table table-borderd">
+  </div>
+
+</div>
+
+  <table class="table table-borderd ">
     <thead>
       <tr>
         <th>room number</th>
@@ -27,32 +36,38 @@
       </tr>
     </tbody>
   </table>
+</div>
+<div class="footer">
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li
-        v-for="page in rooms['links']"
-        :key="page.label"
-        :class="[
+          v-for="page in rooms['links']"
+          :key="page.label"
+          :class="[
           'page-item',
           page.active ? 'active' : '',
           page.url == null ? 'disabled' : '',
         ]"
       >
         <a
-          class="page-link"
-          @click.prevent="getAllRooms(page.url.split('=')[1])"
+            class="page-link"
+            @click.prevent="getAllRooms(page.url.split('=')[1])"
         >
           <span aria-hidden="true">
             {{
               page.label.split(" ")[1] == "Previous"
-                ? page.label.split(" ")[1]
-                : page.label.split(" ")[0]
+                  ? page.label.split(" ")[1]
+                  : page.label.split(" ")[0]
             }}
           </span>
         </a>
       </li>
     </ul>
   </nav>
+
+</div>
+  </div>
+
 </template>
 <script>
 import services from "../services/rooms.js";
@@ -139,21 +154,16 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* h3 {
-  margin: 40px 0 0;
+.room-container{
+height: 60vh;
+  justify-content: space-between;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
+.footer{
+  margin-top: 3%;
+  margin-left: -20%;
+  justify-self: flex-end;
 }
-
-li {
-  display: inline-block;
-  margin: 0 10px;
+.table-borderd{
+  margin-left: 45px;
 }
-
-a {
-  color: #42b983;
-} */
 </style>
