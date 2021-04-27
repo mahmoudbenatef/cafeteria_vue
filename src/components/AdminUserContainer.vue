@@ -1,19 +1,23 @@
 <template>
-<component :is="target" @editUserClicked="mytarget2"  @addUserClicked="mytarget"/>   
+<component :is="target" @editUserClicked="mytarget2"  @addUserClicked="mytarget"  @submitAddUserClicked="mytarget3"   v-bind:myuser="theUser" />   
 
 </template>
 
 <script>
  import AdminListUsers from "./AdminUserListComponent" 
-  import Register from "./Authentication/RegisterComponent"
-    import UpdateUser from "./UserEditByAdmin" 
+  import Register from "./AddUserByAdmin" 
+      import UpdateUser from "./UserEditByAdmin" 
+        //   import UpdateUser from "./UserEditBYadminadmin" 
+
 
 
 export default {
     data (){
 
         return {
-            target: "AdminListUsers"
+            target: "AdminListUsers" , 
+            theUser : []  ,
+            testprops : "kaoud me " 
 
 
         }
@@ -24,9 +28,14 @@ export default {
 
             this.target = "Register"
         },
-        mytarget2(){
-
+        mytarget2(data){
+                console.log("check user",data)
+           this.theUser = data 
             this.target = "UpdateUser"
+        } ,
+         mytarget3(data){
+        
+            this.target = data
         }
 
 
@@ -37,7 +46,7 @@ export default {
     
          AdminListUsers , 
          Register ,
-         UpdateUser
+         UpdateUser,
 
     
   }

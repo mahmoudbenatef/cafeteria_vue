@@ -22,6 +22,7 @@ import CategoryComponet from "@/components/categories/categoryComponent";
 import GithubLoginComponet from "@/components/GithubLoginComponet";
 import ChecksComponent from "@/components/ChecksComponent";
 import $ from "jquery";
+import AdminUserContainer from "@/components/AdminUserContainer" 
 
 const routes = [
   {
@@ -49,6 +50,8 @@ const routes = [
   },
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
+  { path: "/admin", name: "admin", component: AdminUserContainer },
+
   {
     path: "/product/:id",
     name: "editproduct",
