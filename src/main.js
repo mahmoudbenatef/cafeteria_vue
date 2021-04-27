@@ -20,7 +20,7 @@ import UserOrderComponent from "@/components/orders/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
 import CategoryComponet from "@/components/categories/categoryComponent";
 import GithubLoginComponet from "@/components/GithubLoginComponet";
-
+import GoogleLoginComponet from "@/components/GoogleLoginComponet";
 const routes = [
   { path: "/home", name: "home", component: HelloWorld,
     beforeEnter: (to, from,next) => {
@@ -41,6 +41,7 @@ const routes = [
 
   { path: "/register", name: "register", component: RegisterComponent },
   { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
+  { path: "/authorize/google/callback", name: "loginGoogle", component: GoogleLoginComponet },
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
   {
@@ -91,8 +92,14 @@ router.afterEach((to, from) => {
 });
 
 const app = createApp(Container);
-// app.component("myOrders", DataTable);
-// app.component("myOrders", Column);
 
-app.use(VueAxios, axios); //
+app.use(VueAxios, axios); 
 app.use(router).mount("#app");
+
+
+
+// new Vue({
+//   router,
+//   store,
+//   render: h => h(Container)
+// }).$mount('#app')

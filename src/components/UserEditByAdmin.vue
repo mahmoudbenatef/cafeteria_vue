@@ -119,7 +119,7 @@ export default {
       this.photo = e.target.files[0];
     },
     register() {
-      console.log(this.user.room_id,"roooooooooooooooooooooooooooom")
+      console.log(this.user.room_id,"room")
       let formData = new FormData()
       formData.append('photo', this.photo)
       for (const [key, value] of Object.entries(this.user)) {
