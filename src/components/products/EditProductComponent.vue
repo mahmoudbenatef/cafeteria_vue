@@ -102,9 +102,6 @@ export default {
     },
     validateForm() {
       this.errors = {};
-      //   let isValid = this.product.category_id != "null" ;
-      // //   || this.product.price != "";
-      //   console.log(isValid);
       for (const key in this.product) {
         this.product[key] == null && (this.errors[key] = `${key} is required`);
       }

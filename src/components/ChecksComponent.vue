@@ -36,83 +36,85 @@
       <input type="submit" class="btn btn-success mx-1" />
       <input type="reset" class="btn btn-info mx-1" @click="resetChecks" />
     </form>
-  </div>
-
-  <div class="text-center mt-4">
-    <table class="table table-striped table-active table-bordered mb-5">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Total amount</th>
-        </tr>
-      </thead>
-      <tbody v-for="check in checks" :key="check.id">
-        <template v-if="check.orders.length > 0">
-          <tr class="bg-dark text-light">
-            <td>{{ check.name }}</td>
-            <td>{{ currencyFormatter(check.totalAmount) }}</td>
-            <td>
-              <button @click="toggleClass($event)" class="btn btn-success more">
-                +
-              </button>
-            </td>
+    <div class="text-center mt-4">
+      <table class="table table-striped table-active table-bordered mb-5">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Total amount</th>
           </tr>
-          <tr class="" style="display: none">
-            <table
-              class="table table-striped table-active table-bordered"
-              style="margin-left: 6rem; margin-right: 6rem"
-            >
-              <thead>
-                <tr>
-                  <th>Order Date</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody v-for="order in check.orders" :key="order.id">
-                <template v-if="order.products">
+        </thead>
+        <tbody v-for="check in checks" :key="check.id">
+          <template v-if="check.orders.length > 0">
+            <tr class="bg-dark text-light">
+              <td>{{ check.name }}</td>
+              <td>{{ currencyFormatter(check.totalAmount) }}</td>
+              <td>
+                <button
+                  @click="toggleClass($event)"
+                  class="btn btn-success more"
+                >
+                  +
+                </button>
+              </td>
+            </tr>
+            <tr class="" style="display: none">
+              <table
+                class="table table-striped table-active table-bordered"
+                style="margin-left: 6rem; margin-right: 6rem"
+              >
+                <thead>
                   <tr>
-                    <td>
-                      {{ order.created_at }}
-                    </td>
-                    <td>{{ currencyFormatter(order.price) }}</td>
-                    <td>
-                      <button
-                        @click="toggleClass($event)"
-                        class="btn btn-success more"
-                      >
-                        +
-                      </button>
-                    </td>
+                    <th>Order Date</th>
+                    <th>Amount</th>
                   </tr>
-                  <tr style="display: none">
-                    <div
-                      class="row"
-                      style="margin-left: 10rem; margin-right: 5rem"
-                    >
+                </thead>
+                <tbody v-for="order in check.orders" :key="order.id">
+                  <template v-if="order.products">
+                    <tr>
+                      <td>
+                        {{ order.created_at }}
+                      </td>
+                      <td>{{ currencyFormatter(order.price) }}</td>
+                      <td>
+                        <button
+                          @click="toggleClass($event)"
+                          class="btn btn-success more"
+                        >
+                          +
+                        </button>
+                      </td>
+                    </tr>
+                    <tr style="display: none">
                       <div
-                        class="col"
-                        v-for="product in order.products"
-                        :key="product.id"
+                        class="row"
+                        style="margin-left: 10rem; margin-right: 5rem"
                       >
-                        <img
-                          :src="product.photo"
-                          alt="product image"
-                          class="img-fluid"
-                          style="height: 50px"
-                        />
-                        <h5>{{ product.name }}</h5>
-                        <h6>{{ currencyFormatter(product.price) }}</h6>
-                        <h6>{{ product.pivot.quantity }}</h6>
+                        <div
+                          class="col"
+                          v-for="product in order.products"
+                          :key="product.id"
+                        >
+                          <img
+                            :src="product.photo"
+                            alt="product image"
+                            class="img-fluid"
+                            style="height: 50px"
+                          />
+                          <h5>{{ product.name }}</h5>
+                          <h6>{{ currencyFormatter(product.price) }}</h6>
+                          <h6>{{ product.pivot.quantity }}</h6>
+                        </div>
                       </div>
-                    </div>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
-          </tr>
-        </template>
-      </tbody>
-    </table>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -150,9 +152,6 @@ export default {
     },
 
     filterData() {
-      console.log(this.selected_user);
-      console.log(this.date.from);
-      console.log(this.date.to);
       let url = `http://127.0.0.1:8000/api/checks`;
       if (this.date.from !== null && this.date.to !== null) {
         url = url + `?from=${this.date.from}&to=${this.date.to}`;

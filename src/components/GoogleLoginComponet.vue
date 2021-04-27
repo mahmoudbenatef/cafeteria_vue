@@ -20,7 +20,6 @@ export default {
         //.then((response) => response.json())
       let data=await json.json();
       // .then((data) => {
-            console.log(data);
         
         //   window.location.href=data.url;
            if (data.status === "Error") {
@@ -42,9 +41,6 @@ export default {
     
   },
    created(){
-          // this.googleLogin();
-          // console.log("test");
-          console.log(this.$route.query.code)
               
           },
 };

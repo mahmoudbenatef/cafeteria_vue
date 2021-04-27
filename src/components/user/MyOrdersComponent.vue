@@ -125,7 +125,6 @@ export default {
     async updateOrder(order) {
       order.status = "canceled";
       const response = await services.updateOrder(order.id, order);
-      console.log(response);
     },
     toggleClass(event) {
       $(event.target)

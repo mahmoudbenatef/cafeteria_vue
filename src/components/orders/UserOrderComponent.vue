@@ -31,8 +31,6 @@ export default {
   },
   methods:{
     addProduct(product){
-      console.log("get product from parent component")
-      console.log(product)
       if (!(this.products.find((productArr)=> productArr.id === product.id)))
       {
         product.quantity=1

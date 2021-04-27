@@ -41,7 +41,6 @@ export default {
   },
   methods:{
     addRoom(room){
-      console.log("emmeting event")
       this.$emit("addRoom",room)
     }
   }
