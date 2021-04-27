@@ -1,34 +1,36 @@
 <template @submit.prevent>
 <!--  <form class="mt-5">-->
-  <h1>edit </h1>
+  <h1 class="text-center"> Add user </h1>
   <br>
-    <div class="mb-3 row">
-      <label for="name" class="form-label col-md-3">Name</label>
-      <input type="text"  v-model="myuser.name" class="form-control col-md-8" id="name" >
+  <div class="container    align-items-center">
+
+       <div class="form-group ">
+      <label for="name" class="form-label ">Name</label>
+      <input type="text"  v-model="user.name" class="form-control col-md-8 ml-30"  id="name">
     </div>
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'name'in errors && myuser.name ==='' ">
+      <p v-if="'name'in errors">
         {{errors["name"][0]}}
       </p>
     </div>
   </div>
-    <div class="mb-3 row">
-      <label for="exampleInputEmail1" class="form-label col-md-3">Email address</label>
-      <input type="email" v-model="myuser.email" class="form-control col-md-8" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div class="form-group">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" v-model="user.email" class="form-control col-md-8" id="exampleInputEmail1" aria-describedby="emailHelp">
     </div>
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'email'in errors && myuser.email ===''">
+      <p v-if="'email'in errors">
         {{errors["email"][0]}}
       </p>
     </div>
   </div>
 
-  <div class="mb-3 row">
-    <label for="exampleInputPassword1" class="form-label col-md-3">Password</label>
+  <div class="form-group">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
     <input type="password" v-model="user.password" class="form-control col-md-8" id="exampleInputPassword1">
   </div>
 
@@ -40,10 +42,22 @@
       </p>
     </div>
   </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1" class="form-label col-md-3">Confirm Password</label>
+    <input type="password" v-model="user.c_password" class="form-control col-md-8" id="">
+  </div>
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+      <p v-if="'c_password'in errors">
+        {{errors["c_password"][0]}}
+      </p>
+    </div>
+  </div>
 
 
-
-  <div class="mb-3 row">
+  <div class="form-group">
     <label for="exampleInputEmail1" class="form-label col-md-3">Room</label>
     <select v-model="user.room_id" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
       <option selected>Open this select menu</option>
@@ -59,25 +73,26 @@
     </div>
   </div>
 
-  <div class="mb-3 row">
+  <div class="form-group">
     <label for="name" class="form-label col-md-3">Ext</label>
-    <input type="text"  v-model="myuser.ext" class="form-control col-md-8" id="ext" >
+    <input type="text"  v-model="user.ext" class="form-control col-md-8" id="ext">
   </div>
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-8">
-      <p v-if="'ext'in errors && myuser.ext ===''">
+      <p v-if="'ext'in errors">
         {{errors["ext"][0]}}
       </p>
     </div>
   </div>
-  <div class="mb-3 row">
+  <div class="form-group">
   <label for="name" class="form-label col-md-3">Profile pic</label>
-  <input type="file" class="form-control col-md-8" v-on:change="onFileChange" >
+  <input type="file" class="form-control col-md-8" v-on:change="onFileChange">
   </div>
 
-  <button type="" class="btn btn-primary" >{{myuser}}</button> 
-  <button type="submit" class="btn btn-primary" @click="updateData">update</button> 
+  <button type="submit" class="btn btn-primary" @click="register">Add User </button>
+  </div>
+   
 <!--  </form>-->
 </template>
 
@@ -85,12 +100,12 @@
 import axios from 'axios';
 
 export default {
-  name: 'UpdateUser',
+  name: 'Register',
   data(){
     return{
       photo:"",
       rooms:[],
-    user:{
+     user:{
        name:"",
        email:'',
        password:'',
@@ -103,27 +118,19 @@ export default {
   },
   components:{
   },
-  props : ['myuser']  ,
-
   methods:{
-    testme() {
-        console.log("edit user ",this.myuser )
-
-
-    } , 
     onFileChange(e){
-      // this.photo = e.target.files[0];
       this.photo = e.target.files[0];
     },
-
-    updateData() {
+    register() {
+      console.log(this.user.room_id,"roooooooooooooooooooooooooooom")
       let formData = new FormData()
-      // formData.append('photo', this.photo)
-      for (const [key, value] of Object.entries(this.myuser)) {
+      formData.append('photo', this.photo)
+      for (const [key, value] of Object.entries(this.user)) {
           formData.append(key, value)
       }
-      console.log("beforesend",formData)
-      axios.put('http://127.0.0.1:8000/api/register', formData, {
+      console.log("formdatatttt",formData)
+      axios.post('http://127.0.0.1:8000/api/register', formData, {
             headers: {
               'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
             }
@@ -131,13 +138,15 @@ export default {
       )
             .then(response=>{
               let data = response.data
-              console.log("here edit done")
+              console.log("here")
             if (data.status === "Error")
             {
               this.errors = data.message;
             }
             else {
-              this.$router.push('login')
+              this.$router.push('admin')
+             this.$emit("submitAddUserClicked", "AdminListUsers") ; 
+     
             }
 
             })
@@ -145,6 +154,11 @@ export default {
 
 
 
+        // axios({
+        //   method: 'post',
+        //   url: 'http://127.0.0.1:8000/api/register',
+        //   data: data,
+        // })
     }
     },
   created() {
@@ -159,6 +173,7 @@ export default {
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>
