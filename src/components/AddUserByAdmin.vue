@@ -61,7 +61,7 @@
     <label for="exampleInputEmail1" class="form-label col-md-3">Room</label>
     <select v-model="user.room_id" class="form-select form-select-lg mb-3 form-control col-md-8" aria-label=".form-select-lg example">
       <option selected>Open this select menu</option>
-      <option v-for="room in rooms"   v-bind:value="room.id">{{ room.number }}</option>
+      <option v-for="room in rooms"   v-bind:value="room.id" :key="room.id">{{ room.number }}</option>
     </select>
   </div>
   <div class="row">
@@ -123,13 +123,11 @@ export default {
       this.photo = e.target.files[0];
     },
     register() {
-      console.log(this.user.room_id,"roooooooooooooooooooooooooooom")
       let formData = new FormData()
       formData.append('photo', this.photo)
       for (const [key, value] of Object.entries(this.user)) {
           formData.append(key, value)
       }
-      console.log("formdatatttt",formData)
       axios.post('http://127.0.0.1:8000/api/register', formData, {
             headers: {
               'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
@@ -138,7 +136,6 @@ export default {
       )
             .then(response=>{
               let data = response.data
-              console.log("here")
             if (data.status === "Error")
             {
               this.errors = data.message;
@@ -165,7 +162,6 @@ export default {
     fetch('http://127.0.0.1:8000/api/room')
         .then(response => response.json())
         .then(json => {this.rooms=json.data
-          console.log(this.rooms)
         })
   }
 

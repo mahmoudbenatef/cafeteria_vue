@@ -80,7 +80,6 @@ export default {
     
 
     raiseedituser(user){
-      alert(user.id) ;
       this.$emit("editUserClicked", user) ; 
     } , 
     
@@ -89,7 +88,6 @@ export default {
       deleteUser(id) {
         
 
-          alert(id)
 
   axios.delete(`http://127.0.0.1:8000/api/user/${id}`, {
       headers: {
@@ -98,8 +96,6 @@ export default {
     })
      .then(response=>{
               let data = response.data
-              console.log(data)
-              alert("deleted")
             if (data.status === "Error")
             {
               console.log("error in deletion");
@@ -107,14 +103,15 @@ export default {
             else {
               this.$router.push('admin')
               console.log("sucess routering ")
-                 axios 
-        .get('http://127.0.0.1:8000/api/user')
-        .then(response => console.log("hello i am alert 21  "))
+        
 
-    fetch('http://127.0.0.1:8000/api/user')
+    fetch('http://127.0.0.1:8000/api/user',{
+      headers: {
+        
+        Authorization: `Bearer ${this.accessToken}`,      },
+    })
         .then(response => response.json())
         .then(json => {this.users=json.data
-          console.log(this.users)
         })
 
             }
@@ -126,8 +123,6 @@ export default {
     } , 
     getAccessToken (){
       let xx = localStorage.getItem("user") ; 
-      console.log("before token", xx)
-   console.log("after parsing",JSON.parse(xx)['token']) 
     this.accessToken  =   JSON.parse(xx)['token'] 
    
 
@@ -135,14 +130,15 @@ export default {
   },
     created() {
       this.getAccessToken() ;
-    axios 
-        .get('http://127.0.0.1:8000/api/user')
-        .then(response => console.log("hello i am alert 21  "))
 
-    fetch('http://127.0.0.1:8000/api/user')
+
+    fetch('http://127.0.0.1:8000/api/user',{
+      headers: {
+        
+        Authorization: `Bearer ${this.accessToken}`,      },
+    })
         .then(response => response.json())
         .then(json => {this.users=json.data
-          console.log(this.users)
         })
   }
 }
