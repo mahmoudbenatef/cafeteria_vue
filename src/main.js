@@ -20,27 +20,33 @@ import UserOrderComponent from "@/components/orders/UserOrderComponent";
 import RoomComponent from "@/components/rooms/RoomComponent";
 import CategoryComponet from "@/components/categories/categoryComponent";
 import GithubLoginComponet from "@/components/GithubLoginComponet";
+import ChecksComponent from "@/components/ChecksComponent";
+import $ from "jquery";
 
 const routes = [
-  { path: "/home", name: "home", component: HelloWorld,
-    beforeEnter: (to, from,next) => {
+  {
+    path: "/home",
+    name: "home",
+    component: HelloWorld,
+    beforeEnter: (to, from, next) => {
       const user = localStorage.getItem("user");
-      console.log("hala wallah")
-      console.log(user)
-    if (user)
-      if (JSON.parse(user)["isAdmin"] == 1)
-      {
-        console.log("true awi")
-        next()
-      }
-      else  next('/userOrder');
-
-      },
+      console.log("hala wallah");
+      console.log(user);
+      if (user)
+        if (JSON.parse(user)["isAdmin"] == 1) {
+          console.log("true awi");
+          next();
+        } else next("/userOrder");
+    },
   },
   { path: "/register", name: "register", component: Container },
 
   { path: "/register", name: "register", component: RegisterComponent },
-  { path: "/authorize/github/callback", name: "loginGithub", component: GithubLoginComponet },
+  {
+    path: "/authorize/github/callback",
+    name: "loginGithub",
+    component: GithubLoginComponet,
+  },
   { path: "/login", name: "login", component: LoginComponent },
   { path: "/products", name: "products", component: ProductsComponent },
   {
@@ -60,22 +66,22 @@ const routes = [
     component: MyOrdersComponent,
   },
   { path: "/orders", component: CurrentOrdersComponent },
-
+  { path: "/checks", component: ChecksComponent },
   {
     path: "/manualOrder",
     component: ManualOrderComponent,
-    beforeEnter: (to, from,next) => {
+    beforeEnter: (to, from, next) => {
       const user = localStorage.getItem("user");
       if (user)
         if (JSON.parse(user)["isAdmin"] == 1) next();
-        else  next('/userOrder');;
+        else next("/userOrder");
     },
   },
 
-  { path: "/userOrder", component: UserOrderComponent,},
-  { path: "/room", component: RoomComponent,},
+  { path: "/userOrder", component: UserOrderComponent },
+  { path: "/room", component: RoomComponent },
   //CategoryComponet
-  { path: "/cateogy", component: CategoryComponet,},
+  { path: "/cateogy", component: CategoryComponet },
 
   { path: "/:catchAll(.*)", component: Handler },
 ];
